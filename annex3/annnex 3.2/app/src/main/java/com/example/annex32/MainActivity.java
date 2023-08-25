@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,4 +26,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private class Ecouteur implements View.OnClickListener{
+
+
+        @Override
+        public void onClick(View source) {
+
+            for (int i = 0; i<=9; i++){
+                if (source == parent.)
+
+            }
+
+
+
+        }
+    }
+
 }
