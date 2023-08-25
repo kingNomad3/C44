@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">exercices3</string>
+    <string name="objectifText">Objectif: </string>
+    <string name="objectifInput">2 Litres</string>
+    <string name="aCeJour">A ce jour</string>
+    <string name="nbMl">nbMl</string>
+</resources>

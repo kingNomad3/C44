@@ -3,7 +3,7 @@
     <string name="Titre">Virement interac</string>
     <string name="DeInput"></string>
     <string name="ValiderButtom">Valider</string>
-    <string name="AInput"></string>
+    <string name="champDestinataire"></string>
     <string name="Transfert2Input"></string>
     <string name="EnvoyerButton">Envoyez</string>
 
