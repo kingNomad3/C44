@@ -5,10 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.text.DecimalFormat;
+import java.util.Hashtable;
+import java.util.Set;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button envoyezButton;
 
     EditText champEmail;
-    EditText champNomCompte;
+    Spinner spinnerCompte;
     EditText champTransfert;
     EditText champDestinataire;
     TextView textSolde;
@@ -26,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
     Vector<String> listeNomsCompte;
     double solde;
 
+    compte compteChosie;
+    Hashtable<String, compte> lesComptes;
+
+    compte compteEp, compteCh, compteComte;
+
+    DecimalFormat df = new DecimalFormat("0.00$");
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +47,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //initialiser les composantes
-        boutonValider = findViewById(R.id.validerButtom);
-        champNomCompte = findViewById(R.id.DeInput);
+
+        spinnerCompte = findViewById(R.id.spinnerCompte);
         textSolde = findViewById(R.id.texteSolde);
 
         envoyezButton = findViewById(R.id.envoyezButton);
         champTransfert = findViewById(R.id.champTransfert);
         champEmail = findViewById(R.id.champEmail);
+
+        lesComptes = new Hashtable<>();
+        lesComptes.put("CHEQUE", new compte("CHEQUE",400));
+        lesComptes.put("EPARGNE", new compte("EPARGNE",200));
+        lesComptes.put("EPARGNE PLUS", new compte("EPARGNE PLUS",400));
+
 
         listeNomsCompte = new Vector<String>();
         listeNomsCompte.add("CHEQUE");
@@ -48,36 +68,38 @@ public class MainActivity extends AppCompatActivity {
 
         solde = 500;
 
+
+        Set<String> ensembleCles = lesComptes.keySet();
+        listeNomsCompte.addAll(ensembleCles);
+
+
+        //initialiser le spinnersimple_simple_list_item_1
+        ArrayAdapter adapteur = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line,listeNomsCompte);
+        spinnerCompte.setAdapter(adapteur);
+
+
         //1er etape
         ec =  new Ecouteur();
         //2e etape
-        boutonValider.setOnClickListener(ec);
+
         envoyezButton.setOnClickListener(ec);
 
         //3
 //        envoyezButton.setEnabled(false);
+        spinnerCompte.setOnItemSelectedListener(ec);
 
 
 
     }
 
-    private class Ecouteur implements View.OnClickListener {
+    private class Ecouteur implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     @Override
     public void onClick(View source) {
 
 
-        if (source == boutonValider) {
-            String nomCompte = champNomCompte.getText().toString();
-            nomCompte = nomCompte.trim(); //enleve les espaces
-            nomCompte = nomCompte.toUpperCase();
-            if (listeNomsCompte.contains((nomCompte))) {
-                textSolde.setText(String.valueOf(solde));
 
-            } else {
-                textSolde.setText("pas un nom valide");
-            }
-        }else {
+
             String couriel = champEmail.getText().toString();
             String transfert = champTransfert.getText().toString();
             double transfertdouble = Double.parseDouble(transfert);
@@ -97,20 +119,30 @@ public class MainActivity extends AppCompatActivity {
                 champDestinataire.setHint("entrez un courriel valide");
             }
 
-        }
-
-
-
-
-
-
 
 
     }
 
 
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//            String nomCompte = (String) spinnerCompte.getItemAtPosition(position);
+//            autre facon
+            TextView temp = (TextView) view;
+            String nomCompte = temp.getText().toString();
 
-}
+
+            compteChosie = lesComptes.get(nomCompte);
+//            afficher le solde du compte choisie
+            solde = compteChosie.getSolde();
+            textSolde.setText(df.format(solde));
+    }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
 
 
 }

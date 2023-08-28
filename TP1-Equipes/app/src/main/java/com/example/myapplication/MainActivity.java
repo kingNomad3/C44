@@ -18,14 +18,16 @@ import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
-    // CustomData class definition
-    private class CustomData {
-        private int imageResourceId;
-        private String arenaInput;
-        private String coachName;
+    // CustomData classe
+    private class EquipeBasket {
+         ImageView imageResourceId;
+//         set image ressource
+        //mieux de separer dan sune autre classe
+         String arenaInput;
+         String coachName;
 
-        public CustomData(int imageResourceId, String arenaName, String coachName) {
-            this.imageResourceId = imageResourceId;
+        public CustomData(ImageView  imageResourceId, String arenaName, String coachName) {
+            this.imageResourceId =  imageResourceId;
             this.arenaInput = arenaName;
             this.coachName = coachName;
         }
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView washingtonImg;
     ImageView chicagoImg;
 
-    List<CustomData> dataList;
+    List<EquipeBasket> dataList;
     int currentIndex = 0;
 
     @SuppressLint("MissingInflatedId")
@@ -55,18 +57,20 @@ public class MainActivity extends AppCompatActivity {
         washingtonButton = findViewById(R.id.washingtonButton);
         arenaView = findViewById(R.id.arenaView);
         nomInput = findViewById(R.id.nomEntrainer);
-        atlantaImg = findViewById(R.id.AtlantaImg);
-        chicagoImg = findViewById(R.id.ChicagoImg);
-        washingtonImg = findViewById(R.id.washingtonImg);
+        atlantaImg = (ImageView) findViewById(R.id.AtlantaImg);
+        chicagoImg = (ImageView) findViewById(R.id.ChicagoImg);
+        washingtonImg = (ImageView) findViewById(R.id.washingtonImg);
 
 
 
         dataList = new ArrayList<>();
-        dataList.add(new CustomData(R.drawable.atlantaImg, "Atlanta Arena", "John Doe"));
-        dataList.add(new CustomData(R.drawable.chicagoImg, "Chicago Arena", "Jane Smith"));
-        dataList.add(new CustomData(R.drawable.washingtonImg, "Washington Arena", "Michael Johnson"));
+//le drawable doit etre l<adresse de l<image tel quel pas le id
 
-        ec = new Ecouteur(); // Initialize the listener
+        dataList.add(new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
+        dataList.add(new EquipeBasket(chicagoImg, "Chicago Arena", "Jane Smith"));
+        dataList.add(new EquipeBasket(washingtonImg, "Washington Arena", "Michael Johnson"));
+
+        ec = new Ecouteur();
         atlantaButton.setOnClickListener(ec);
         chicagoButton.setOnClickListener(ec);
         washingtonButton.setOnClickListener(ec);
