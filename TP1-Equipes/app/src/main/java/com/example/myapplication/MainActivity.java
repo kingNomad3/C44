@@ -19,19 +19,7 @@ import java.util.concurrent.TimeoutException;
 public class MainActivity extends AppCompatActivity {
 
     // CustomData classe
-    private class EquipeBasket {
-         ImageView imageResourceId;
-//         set image ressource
-        //mieux de separer dan sune autre classe
-         String arenaInput;
-         String coachName;
 
-        public CustomData(ImageView  imageResourceId, String arenaName, String coachName) {
-            this.imageResourceId =  imageResourceId;
-            this.arenaInput = arenaName;
-            this.coachName = coachName;
-        }
-    }
 
     Button atlantaButton;
     Button chicagoButton;
@@ -57,18 +45,18 @@ public class MainActivity extends AppCompatActivity {
         washingtonButton = findViewById(R.id.washingtonButton);
         arenaView = findViewById(R.id.arenaView);
         nomInput = findViewById(R.id.nomEntrainer);
-        atlantaImg = (ImageView) findViewById(R.id.AtlantaImg);
-        chicagoImg = (ImageView) findViewById(R.id.ChicagoImg);
-        washingtonImg = (ImageView) findViewById(R.id.washingtonImg);
+//        atlantaImg = (ImageView) findViewById(R.id.AtlantaImg);
+//        chicagoImg = (ImageView) findViewById(R.id.ChicagoImg);
+//        washingtonImg = (ImageView) findViewById(R.id.washingtonImg);
 
 
 
         dataList = new ArrayList<>();
 //le drawable doit etre l<adresse de l<image tel quel pas le id
 
-        dataList.add(new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
-        dataList.add(new EquipeBasket(chicagoImg, "Chicago Arena", "Jane Smith"));
-        dataList.add(new EquipeBasket(washingtonImg, "Washington Arena", "Michael Johnson"));
+        dataList.add(new EquipeBasket( R.drawable.atlanta, "Atlanta Arena", "John Doe"));
+        dataList.add(new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
+        dataList.add(new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael Johnson"));
 
         ec = new Ecouteur();
         atlantaButton.setOnClickListener(ec);
@@ -82,20 +70,14 @@ public class MainActivity extends AppCompatActivity {
             int clickedIndex = -1;
 
             if (source == atlantaButton) {
-                clickedIndex = 0;
+
             } else if (source == chicagoButton) {
                 clickedIndex = 1;
             } else if (source == washingtonButton) {
                 clickedIndex = 2;
             }
 
-            if (clickedIndex != -1) {
-                CustomData clickedData = dataList.get(clickedIndex);
-                arenaView.setText(clickedData.arenaInput);
-                nomInput.setText(clickedData.coachName);
-            } else {
 
-            }
         }
     }
 }
