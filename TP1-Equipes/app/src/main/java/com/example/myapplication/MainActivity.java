@@ -2,39 +2,30 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
+
+
+
 
 public class MainActivity extends AppCompatActivity {
-
-    // CustomData classe
-
 
     Button atlantaButton;
     Button chicagoButton;
     Button washingtonButton;
     TextView arenaView;
     TextView nomInput;
-    Ecouteur ec;
-    ImageView atlantaImg;
-    ImageView washingtonImg;
-    ImageView chicagoImg;
+    ImageView teamImage;  // Add ImageView for the team image
 
     List<EquipeBasket> dataList;
     int currentIndex = 0;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,39 +36,40 @@ public class MainActivity extends AppCompatActivity {
         washingtonButton = findViewById(R.id.washingtonButton);
         arenaView = findViewById(R.id.arenaView);
         nomInput = findViewById(R.id.nomEntrainer);
-//        atlantaImg = (ImageView) findViewById(R.id.AtlantaImg);
-//        chicagoImg = (ImageView) findViewById(R.id.ChicagoImg);
-//        washingtonImg = (ImageView) findViewById(R.id.washingtonImg);
-
-
+        teamImage = findViewById(R.id.teamImage);  // Initialize the ImageView
 
         dataList = new ArrayList<>();
-//le drawable doit etre l<adresse de l<image tel quel pas le id
 
-        dataList.add(new EquipeBasket( R.drawable.atlanta, "Atlanta Arena", "John Doe"));
+        dataList.add(new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
         dataList.add(new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
         dataList.add(new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael Johnson"));
 
-        ec = new Ecouteur();
-        atlantaButton.setOnClickListener(ec);
-        chicagoButton.setOnClickListener(ec);
-        washingtonButton.setOnClickListener(ec);
+        updateView(currentIndex);
+
+        // Common OnClickListener for all buttons
+        View.OnClickListener buttonClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == atlantaButton) {
+                    currentIndex = 0;
+                } else if (v == chicagoButton) {
+                    currentIndex = 1;
+                } else if (v == washingtonButton) {
+                    currentIndex = 2;
+                }
+                updateView(currentIndex);
+            }
+        };
+
+        atlantaButton.setOnClickListener(buttonClickListener);
+        chicagoButton.setOnClickListener(buttonClickListener);
+        washingtonButton.setOnClickListener(buttonClickListener);
     }
 
-    private class Ecouteur implements View.OnClickListener {
-        @Override
-        public void onClick(View source) {
-            int clickedIndex = -1;
-
-            if (source == atlantaButton) {
-
-            } else if (source == chicagoButton) {
-                clickedIndex = 1;
-            } else if (source == washingtonButton) {
-                clickedIndex = 2;
-            }
-
-
-        }
+    private void updateView(int index) {
+        EquipeBasket equipe = dataList.get(index);
+        arenaView.setText(equipe.getArenaInput());
+        nomInput.setText(equipe.getCoachName());
+        teamImage.setImageResource(equipe.getImageResourceId());  // Update the team image
     }
 }

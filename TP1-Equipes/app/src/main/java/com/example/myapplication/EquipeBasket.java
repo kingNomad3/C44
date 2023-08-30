@@ -2,12 +2,6 @@ package com.example.myapplication;
 
 import android.widget.ImageView;
 
-//public class EquipeBasket {
-//    public EquipeBasket(ImageView washingtonImg, String washington_arena, String michael_johnson) {
-//
-//
-//    }
-//}
 
 public class EquipeBasket {
     int imageResourceId;
