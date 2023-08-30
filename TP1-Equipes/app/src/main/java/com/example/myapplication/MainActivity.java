@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         washingtonButton = findViewById(R.id.washingtonButton);
         arenaView = findViewById(R.id.arenaView);
         nomInput = findViewById(R.id.nomEntrainer);
-        teamImage = findViewById(R.id.teamImage);  // Initialize the ImageView
+        teamImage = findViewById(R.id.defaultImg);  // Initialize the ImageView
 
         dataList = new ArrayList<>();
 
@@ -44,14 +44,15 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
         dataList.add(new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael Johnson"));
 
-        updateView(currentIndex);
+       // updateView(currentIndex);
 
-        // Common OnClickListener for all buttons
+
         View.OnClickListener buttonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v == atlantaButton) {
                     currentIndex = 0;
+                    teamImage.setImageResource(dataList.get(currentIndex).getImageResourceId());
                 } else if (v == chicagoButton) {
                     currentIndex = 1;
                 } else if (v == washingtonButton) {

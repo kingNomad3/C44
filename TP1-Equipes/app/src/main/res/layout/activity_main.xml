@@ -108,44 +108,4 @@
         app:layout_constraintVertical_bias="0.13"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-    <ImageView
-        android:id="@+id/AtlantaImg"
-        android:layout_width="331dp"
-        android:layout_height="262dp"
-        android:contentDescription="@string/atlantaButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126"
-        app:srcCompat="@drawable/atlanta" />
-
-    <ImageView
-        android:id="@+id/ChicagoImg"
-        android:layout_width="322dp"
-        android:layout_height="274dp"
-        android:contentDescription="@string/chicagoButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        app:srcCompat="@drawable/chicago" />
-
-    <ImageView
-        android:id="@+id/washingtonImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/washingtonButton"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.146"
-        app:srcCompat="@drawable/washington"
-        tools:srcCompat="@drawable/washington" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
