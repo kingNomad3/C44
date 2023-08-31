@@ -8,11 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
-
-
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,9 +19,11 @@ public class MainActivity extends AppCompatActivity {
     Button washingtonButton;
     TextView arenaView;
     TextView nomInput;
-    ImageView teamImage;  // Add ImageView for the team image
+    ImageView teamImage;
 
-    List<EquipeBasket> dataList;
+    HashMap<String, EquipeBasket> team;
+    //    List<EquipeBasket> dataList;
+    String[] teamNames = {"Atlanta", "Chicago", "Washington"};
     int currentIndex = 0;
 
     @Override
@@ -36,40 +36,74 @@ public class MainActivity extends AppCompatActivity {
         washingtonButton = findViewById(R.id.washingtonButton);
         arenaView = findViewById(R.id.arenaView);
         nomInput = findViewById(R.id.nomEntrainer);
-        teamImage = findViewById(R.id.defaultImg);  // Initialize the ImageView
+        teamImage = findViewById(R.id.defaultImg);
 
-        dataList = new ArrayList<>();
+        Ecouteur ec = new Ecouteur();
 
-        dataList.add(new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
-        dataList.add(new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
-        dataList.add(new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael Johnson"));
+        team = new HashMap<>();
 
-       // updateView(currentIndex);
+        team.put("Atlanta", new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
+        team.put("Chicago", new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
+        team.put("Washington", new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael Johnson"));
 
+        atlantaButton.setTag("Atlanta");
+        chicagoButton.setTag("Chicago");
+        washingtonButton.setTag("Washington");
 
-        View.OnClickListener buttonClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v == atlantaButton) {
-                    currentIndex = 0;
-                } else if (v == chicagoButton) {
-                    currentIndex = 1;
-                } else if (v == washingtonButton) {
-                    currentIndex = 2;
-                }
-                updateView(currentIndex);
-            }
-        };
-
-        atlantaButton.setOnClickListener(buttonClickListener);
-        chicagoButton.setOnClickListener(buttonClickListener);
-        washingtonButton.setOnClickListener(buttonClickListener);
+        atlantaButton.setOnClickListener(ec);
+        chicagoButton.setOnClickListener(ec);
+        washingtonButton.setOnClickListener(ec);
     }
 
-    private void updateView(int index) {
-        EquipeBasket equipe = dataList.get(index);
+    private class Ecouteur implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            String teamName = (String) v.getTag();
+            updateView(teamName);
+        }
+    }
+
+    private void updateView(String teamName) {
+        EquipeBasket equipe = team.get(teamName);
         arenaView.setText(equipe.getArenaInput());
         nomInput.setText(equipe.getCoachName());
-        teamImage.setImageResource(dataList.get(currentIndex).getImageResourceId());
+        teamImage.setImageResource(equipe.getImageResourceId());
     }
 }
+
+
+//private class Ecouteur implements View.OnClickListener {
+//
+//    @Override
+//    public void onClick(View v) {
+//        if (v == atlantaButton) {
+//            currentIndex = 0;
+//        } else if (v == chicagoButton) {
+//            currentIndex = 1;
+//        } else if (v == washingtonButton) {
+//            currentIndex = 2;
+//        }
+//        updateView(teamNames[currentIndex]);
+//    }
+//
+//
+//}
+
+//        dataList.add(new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
+//        dataList.add(new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
+//        dataList.add(new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael
+//        View.OnClickListener buttonClickListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (v == atlantaButton) {
+//                    currentIndex = 0;
+//                } else if (v == chicagoButton) {
+//                    currentIndex = 1;
+//                } else if (v == washingtonButton) {
+//                    currentIndex = 2;
+//                }
+//                updateView(teamNames[currentIndex]);
+//            }
+//        };
+//
