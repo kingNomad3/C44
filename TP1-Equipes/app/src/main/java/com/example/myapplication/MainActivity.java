@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v == atlantaButton) {
                     currentIndex = 0;
-                    teamImage.setImageResource(dataList.get(currentIndex).getImageResourceId());
                 } else if (v == chicagoButton) {
                     currentIndex = 1;
                 } else if (v == washingtonButton) {
@@ -71,6 +70,6 @@ public class MainActivity extends AppCompatActivity {
         EquipeBasket equipe = dataList.get(index);
         arenaView.setText(equipe.getArenaInput());
         nomInput.setText(equipe.getCoachName());
-        teamImage.setImageResource(equipe.getImageResourceId());  // Update the team image
+        teamImage.setImageResource(dataList.get(currentIndex).getImageResourceId());
     }
 }

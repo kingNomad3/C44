@@ -3,8 +3,10 @@
     <string name="atlantaButton">ATLANTA</string>
     <string name="chicagoButton">CHICAGO</string>
     <string name="washingtonButton">WASHINGTON</string>
-    <string name="ArenaView">Arena</string>
-    <string name="nomEntrainer">Nom de l\'entraineur[-euse]</string>
+    <string name="ArenaView"></string>
+    <string name="nomEntrainer"></string>
     <string name="arenaInput"></string>
     <string name="nomInput"></string>
+    <string name="coachTxtView">Nom de l\'entraineur[-euse]</string>
+    <string name="arenaTxtView">Arena</string>
 </resources>
