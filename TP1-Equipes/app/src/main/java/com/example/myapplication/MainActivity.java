@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         team = new HashMap<>();
 
-        team.put("Atlanta", new EquipeBasket(R.drawable.atlanta, "Atlanta Arena", "John Doe"));
-        team.put("Chicago", new EquipeBasket(R.drawable.chicago, "Chicago Arena", "Jane Smith"));
-        team.put("Washington", new EquipeBasket(R.drawable.washington, "Washington Arena", "Michael Johnson"));
+        team.put("Atlanta", new EquipeBasket(R.drawable.atlanta, "Gateway Center Arena", "Tanisha Wright"));
+        team.put("Chicago", new EquipeBasket(R.drawable.chicago, "Wintrust Arena", "Emre Vatansever"));
+        team.put("Washington", new EquipeBasket(R.drawable.washington, "Entertainment & Sports Arena", "Eric Thibault"));
 
         atlantaButton.setTag("Atlanta");
         chicagoButton.setTag("Chicago");
@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private class Ecouteur implements View.OnClickListener {
 
         @Override
+
         public void onClick(View v) {
+//            get tag me permet de prendre l'objet
             String teamName = (String) v.getTag();
             updateView(teamName);
         }
