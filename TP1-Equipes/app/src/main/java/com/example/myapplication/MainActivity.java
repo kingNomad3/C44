@@ -21,10 +21,11 @@ public class MainActivity extends AppCompatActivity {
     TextView nomInput;
     ImageView teamImage;
 
+//    better to use Hashmap dans mon cas
     HashMap<String, EquipeBasket> team;
     //    List<EquipeBasket> dataList;
     String[] teamNames = {"Atlanta", "Chicago", "Washington"};
-    int currentIndex = 0;
+//    int currentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
 
         public void onClick(View v) {
-//            get tag me permet de prendre l'objet
+//            get tag me permet de prendre l'objet Team que j'ai creer
+//            https://developer.android.com/reference/android/view/View#getTag()
+//            http://www.java2s.com/example/java-api/android/widget/textview/gettag-0-0.html
             String teamName = (String) v.getTag();
             updateView(teamName);
         }
