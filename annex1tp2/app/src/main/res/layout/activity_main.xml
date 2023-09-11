@@ -13,20 +13,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <EditText
             android:id="@+id/variabley"
-            android:layout_width="wrap_content"
+            android:layout_width="111dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="position X" />
+            android:ems="10"
+            android:inputType="textPersonName" />
 
-        <TextView
+        <EditText
             android:id="@+id/variablex"
-            android:layout_width="wrap_content"
+            android:layout_width="108dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="position Y"
-            android:text="TextView" />
+            android:ems="10"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/button"
@@ -34,5 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Button" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

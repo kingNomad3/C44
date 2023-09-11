@@ -15,6 +15,7 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Vector;
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout parent;
 
     SurfaceDessin surf;
-    TextView variabley;
-    TextView variablex;
+    EditText variabley;
+    EditText variablex;
     
     Button Envoyez;
 
