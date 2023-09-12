@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 p.moveTo(x,y);
             }else{
                 p.lineTo(x,y);
-                source.invalidate();
+                surf.invalidate(); // on veut invalited la surface
             }
         }
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             c = new Paint(Paint.ANTI_ALIAS_FLAG);
             c.setStyle(Paint.Style.STROKE);
             c.setColor(Color.RED);
-            c.setStrokeWidth(8);
+            c.setStrokeWidth(15);
 
         }
 
