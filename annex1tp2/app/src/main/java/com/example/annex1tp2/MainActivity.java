@@ -22,7 +22,7 @@ import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
-    ConstraintLayout parent;
+    ConstraintLayout zoneDessin;
 
     SurfaceDessin surf;
     EditText variabley;
@@ -47,26 +47,24 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        zoneDessin = findViewById(R.id.zoneDessin);
+        variabley = findViewById(R.id.variabley);
+        variablex = findViewById(R.id.variablex);
+        Envoyez = findViewById(R.id.button);
 
         surf = new SurfaceDessin(this);
         surf.setLayoutParams(new ConstraintLayout.LayoutParams(-1,-1));
-        surf.setBackground(ContextCompat.getColor(this,R.color.teal_200));
-        parent = findViewById(R.id.parent);
-        variabley = findViewById(R.id.variabley);
-        variablex = findViewById(R.id.variablex);
-
-
-
-        parent.addView(surf);
+        surf.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200));
+        zoneDessin.addView(surf);
         
-        Envoyez = findViewById(R.id.button);
+
         
         Envoyez.setOnClickListener(ec);
         p = new Path();
 
     }
 
-    private class Ecouteur implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    private class Ecouteur implements View.OnClickListener {
 
         @Override
         public void onClick(View source) {
@@ -81,16 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
     }
 
     private class SurfaceDessin extends View {
@@ -99,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             super(context);
             c = new Paint(Paint.ANTI_ALIAS_FLAG);
             c.setStyle(Paint.Style.STROKE);
+            c.setColor(Color.RED);
             c.setStrokeWidth(8);
 
         }
@@ -109,15 +98,8 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
             canvas.drawPath(p, c);
 
-
-
-
         }
 
-
-        public void setBackground(int color) {
-
-        }
     }
 
 
