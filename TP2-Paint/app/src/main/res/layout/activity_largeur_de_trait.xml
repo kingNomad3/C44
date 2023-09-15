@@ -5,6 +5,6 @@
     android:id="@+id/trailleCrayonDialogue"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LargeurDeTrait">
+    tools:context=".Crayon">
 
 </LinearLayout>

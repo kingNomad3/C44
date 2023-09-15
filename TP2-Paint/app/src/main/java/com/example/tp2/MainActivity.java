@@ -44,14 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
     Path p;
     private HashMap<Integer, Integer> primaryColorsMap = new HashMap<>();
-    private List<Path> listePaths = new ArrayList<>();
+    private ArrayList<Crayon> listeCrayon = new ArrayList<>();
 
-    private float epaisseurTrait = 15;
+    float epaisseurTrait ;
+    Paint c;
 
     int backgroundColor = R.color.teal_200; // cbackground color par defaut
     //changement du background color
-
-
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         largeur_trait.setOnClickListener(ecBouton);
         peintureBackground.setOnClickListener(ecBouton);
         couleur.setOnClickListener(ecBouton);
-        p = new Path();
+//        p = new Path();
 
 
     }
@@ -93,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
             float y = event.getY();
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                p = new Path(); // Créez un nouveau Path pour chaque nouveau tracé
+                p = new Crayon(epaisseurTrait,Color.BLUE,p); // Créez un nouveau Path pour chaque nouveau tracé
                 p.moveTo(x, y);
-                listePaths.add(p); // Ajoutez le nouveau Path à la liste
+                listeCrayon.add((Crayon) p); // Ajoutez le nouveau Path à la liste
                 source.invalidate();
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 p.lineTo(x, y);
@@ -106,12 +105,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    public void undo() {
+//        // check whether the List is empty or not
+//        // if empty, the remove method will return an error
+//        if (paths.size() != 0) {
+//            paths.remove(paths.size() - 1);
+//            invalidate();
+//        }
+//    }
+
     private class EcouteurBouton implements View.OnClickListener {
         @Override
         public void onClick(View source) {
             if (source == largeur_trait) {
                 // Gérer le clic sur le bouton "crayon" ici
-                showCrayonDialog(); // Afficher le dialogue pour personnaliser le crayon
+                showCrayonTaille(); // Afficher le dialogue pour personnaliser le crayon
             } else if (source == couleur) {
                 // Gérer le clic sur le bouton "couleur" ici
 //                showCouleurDialog(); // Afficher le dialogue pour choisir la couleur
@@ -122,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-            private void showCrayonDialog() {
+            private void showCrayonTaille() {
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -137,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         epaisseurTrait = seekBar.getProgress(); // Mettez à jour l'épaisseur souhaitée
         //                // Mettez à jour l'épaisseur du trait dans la vue SurfaceDessin
-                        surf.setEpaisseurTrait(epaisseurTrait);
+//                        surf.setEpaisseurTrait(epaisseurTrait);
                     }
 
                 });
@@ -147,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
             private void showColorDialog(final ImageView colorButton) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Choose a Color");
@@ -169,14 +176,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         private class SurfaceDessin extends View {
-            Paint c;
+
             public SurfaceDessin(Context context) {
                 super(context);
                 c = new Paint(Paint.ANTI_ALIAS_FLAG);
                 c.setStyle(Paint.Style.STROKE);
-
-                c.setColor(Color.RED);
-                c.setStrokeWidth(epaisseurTrait);
 
             }
 
@@ -184,16 +188,18 @@ public class MainActivity extends AppCompatActivity {
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
 
-                for (Path path : listePaths) {
-                    canvas.drawPath(path, c);
+
+                for (Crayon cr: listeCrayon) {
+
+                    c.setColor(cr.currentCouleur);
+                    c.setStrokeWidth(cr.epaisseurTrait);
+                    canvas.drawPath(cr, c);
                 }
+
+
             }
 
-            public void setEpaisseurTrait(float epaisseur) {
-                epaisseurTrait = epaisseur;
-                c.setStrokeWidth(epaisseurTrait);
-                invalidate(); // Forcer le redessin avec la nouvelle épaisseur
-            }
+
 
         }
     }
