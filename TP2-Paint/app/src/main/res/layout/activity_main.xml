@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonColorRed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,63 +86,63 @@
         android:layout_weight="5">
 
         <LinearLayout
-            android:id="@+id/crayon"
+            android:id="@+id/scrollOption"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="10"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/redo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/redo" />
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/peintureBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/remplir" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/rectangle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/rectangle" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/epaisseurCrayon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/crayon" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/efface"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/efface" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/triangle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/triangle" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/cercle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/cercle" />
 
             <ImageView
-                android:id="@+id/imageView9"
+                android:id="@+id/undo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/undo" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/largeur_trait"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/largeur_trait" />
