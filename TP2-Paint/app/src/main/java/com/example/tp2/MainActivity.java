@@ -22,7 +22,6 @@ import android.widget.SeekBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
     SurfaceDessin surf;
 
     LinearLayout scrollOption;
-    LinearLayout couleur;
-
+    LinearLayout couleurwheel;
     Button  buttonColorRed;
 
     ImageView largeur_trait;
+    ImageView crayon;
+    ImageView undo;
     ImageView peintureBackground;
 
     Ecouteursurf ecSurf = new Ecouteursurf();
@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<Integer, Integer> primaryColorsMap = new HashMap<>();
     private ArrayList<Crayon> listeCrayon = new ArrayList<>();
 
-    float epaisseurTrait ;
+    float epaisseurTrait =15 ;
     Paint c;
+
+
 
     int backgroundColor = R.color.teal_200; // cbackground color par defaut
     //changement du background color
@@ -61,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         zoneDessin = findViewById(R.id.zoneDessin);
         largeur_trait = findViewById(R.id.largeur_trait);
         peintureBackground = findViewById(R.id.peintureBackground);
-        couleur = findViewById(R.id.couleur);
+        couleurwheel = findViewById(R.id.couleurwheel);
+        undo = findViewById(R.id.undo);
 
         surf =  new SurfaceDessin(this);
         surf.setLayoutParams(new ConstraintLayout.LayoutParams(-1,-1));
@@ -78,12 +81,15 @@ public class MainActivity extends AppCompatActivity {
 
         surf.setOnTouchListener(ecSurf);
         largeur_trait.setOnClickListener(ecBouton);
+//        crayon.setOnClickListener(ecBouton);
         peintureBackground.setOnClickListener(ecBouton);
-        couleur.setOnClickListener(ecBouton);
+        couleurwheel.setOnClickListener(ecBouton);
+        undo.setOnClickListener(ecBouton);
 //        p = new Path();
 
 
     }
+
 
     private class Ecouteursurf implements View.OnTouchListener {
         @Override
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 p = new Crayon(epaisseurTrait,Color.BLUE,p); // Créez un nouveau Path pour chaque nouveau tracé
+
                 p.moveTo(x, y);
                 listeCrayon.add((Crayon) p); // Ajoutez le nouveau Path à la liste
                 source.invalidate();
@@ -105,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void DrawCrayon() {
+        p = new Crayon(epaisseurTrait,Color.BLUE,p); // Créez un nouveau Path pour chaque nouveau tracé
+
+    }
+
 //    public void undo() {
 //        // check whether the List is empty or not
 //        // if empty, the remove method will return an error
@@ -114,18 +126,27 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
+
+
     private class EcouteurBouton implements View.OnClickListener {
         @Override
         public void onClick(View source) {
             if (source == largeur_trait) {
                 // Gérer le clic sur le bouton "crayon" ici
                 showCrayonTaille(); // Afficher le dialogue pour personnaliser le crayon
-            } else if (source == couleur) {
+            } else if (source == couleurwheel) {
                 // Gérer le clic sur le bouton "couleur" ici
 //                showCouleurDialog(); // Afficher le dialogue pour choisir la couleur
+
             } else if (source == peintureBackground) {
 
                 showColorDialog((ImageView) source);
+            } else if (source == undo){
+                if (listeCrayon.size() != 0) {
+                    listeCrayon.remove(listeCrayon.size() - 1);
+//                    invalidate();
+                }
+
             }
         }
 
@@ -136,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Épaisseur du trait");
                 final SeekBar seekBar = new SeekBar(MainActivity.this);
-                seekBar.setMax(20); // Réglez la plage d'épaisseur souhaitée
+                seekBar.setMax(100); // Réglez la plage d'épaisseur souhaitée
                 seekBar.setProgress((int) epaisseurTrait); // Définissez la valeur actuelle
                 builder.setView(seekBar);
 
@@ -198,8 +219,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-
-
 
         }
     }

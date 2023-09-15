@@ -4,79 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="#3F51B5"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/couleur"
-        android:layout_width="422dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0">
 
-        <Button
-            android:id="@+id/buttonColorRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
+        <LinearLayout
+            android:id="@+id/couleurwheel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#983D01" />
+            <Button
+                android:id="@+id/buttonColorRed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#EC0202"
+                android:shadowColor="#C52A2A"
+                android:textColor="#FFF3F3"
+                android:textColorHighlight="#FF2929"
+                android:textColorHint="#F61515"
+                android:textColorLink="#BA2121"
+                app:rippleColor="#D81818"
+                app:strokeColor="#FF5722" />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
+            <Button
+                android:id="@+id/buttonColorBleu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#2196F3" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
+            <Button
+                android:id="@+id/buttonColorVert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#4CAF50" />
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
+            <Button
+                android:id="@+id/buttonColorJaune"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FFEB3B" />
 
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
+            <Button
+                android:id="@+id/buttonColorOrange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FF5722" />
 
-        <Button
-            android:id="@+id/button7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
+            <Button
+                android:id="@+id/buttonColorBrun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#A62E25" />
 
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="B" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/buttonColorblanc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FFFFFF" />
+
+            <Button
+                android:id="@+id/buttonColorNoir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#000000" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/zoneDessin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="50">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,16 +126,16 @@
                 app:srcCompat="@drawable/rectangle" />
 
             <ImageView
-                android:id="@+id/epaisseurCrayon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/crayon" />
-
-            <ImageView
                 android:id="@+id/efface"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/efface" />
+
+            <ImageView
+                android:id="@+id/crayon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/crayon" />
 
             <ImageView
                 android:id="@+id/triangle"
