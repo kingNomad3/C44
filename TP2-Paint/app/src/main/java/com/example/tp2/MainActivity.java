@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView largeur_trait;
     ImageView crayon;
+    ImageView rectangle,
     ImageView undo;
     ImageView peintureBackground;
 
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         peintureBackground = findViewById(R.id.peintureBackground);
         couleurwheel = findViewById(R.id.couleurwheel);
         undo = findViewById(R.id.undo);
+        rectangle = findViewById(R.id.rectangle);
 
         surf =  new SurfaceDessin(this);
         surf.setLayoutParams(new ConstraintLayout.LayoutParams(-1,-1));
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         peintureBackground.setOnClickListener(ecBouton);
         couleurwheel.setOnClickListener(ecBouton);
         undo.setOnClickListener(ecBouton);
+        rectangle.setOnClickListener(ecBouton);
 //        p = new Path();
 
 
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 p = new Crayon(epaisseurTrait,Color.BLUE,p); // Créez un nouveau Path pour chaque nouveau tracé
-
+//                p = new Rectangle(epaisseurTrait,Color.BLUE,p);
                 p.moveTo(x, y);
                 listeCrayon.add((Crayon) p); // Ajoutez le nouveau Path à la liste
                 source.invalidate();
@@ -214,8 +217,11 @@ public class MainActivity extends AppCompatActivity {
 
                     c.setColor(cr.currentCouleur);
                     c.setStrokeWidth(cr.epaisseurTrait);
-                    canvas.drawPath(cr, c);
+//                    canvas.drawPath(cr, c);
+                    canvas.drawRect(cr,c);
                 }
+
+
 
 
             }
