@@ -1,43 +1,55 @@
 package com.example.tp2;
 
-import androidx.annotation.NonNull;
-
-import android.app.Dialog;
-import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Bundle;
-public class Crayon extends Path {
 
-    float epaisseurTrait;
-    int currentCouleur;
-    Paint formCrayon;
-    int couleur;
+public class Crayon extends BoiteOutil {
 
-    Path p;
+    private final Path path;
+    private Paint paint;
 
-    public Crayon(float epaisseurTrait, int currentCouleur, Path p) {
-        this.epaisseurTrait = epaisseurTrait;
-        this.currentCouleur = currentCouleur;
-//        this.formCrayon = formCrayon;
-        this.p = p;
-
-
+    public Crayon(float epaisseurTrait, int currentCouleur) {
+        super(epaisseurTrait, currentCouleur, null); // Passez null pour le paramètre Path
+        paint = new Paint();
+        paint.setColor(currentCouleur);
+        paint.setStrokeWidth(epaisseurTrait);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
+        this.path = new Path();
     }
 
-
-
-    public float getEpaisseurTrait() {
-        return epaisseurTrait;
+    @Override
+    public void onTouchDown(float x, float y) {
+        // Lorsque l'utilisateur touche l'écran, déplacez le chemin vers les coordonnées du toucher
+        path.moveTo(x, y);
     }
 
-    public int getCurrentCouleur() {
-        return currentCouleur;
+    @Override
+    public void onTouchMove(float x, float y) {
+        // Lorsque l'utilisateur déplace son doigt, ajoutez une ligne au chemin pour dessiner
+        path.lineTo(x, y);
     }
 
-    
+    @Override
+    public void draw(Canvas canvas) {
+        // Dessinez le chemin sur le canevas en utilisant l'objet Paint spécifié
+        canvas.drawPath(path, paint);
+    }
 
-    public Path getP() {
-        return p;
+    public Paint getPaint() {
+        return paint;
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    @Override
+    public boolean isCrayon() {
+        return true;
     }
 }
+
+
