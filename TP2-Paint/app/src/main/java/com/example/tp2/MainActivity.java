@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         RECTANGLE
     }
 
-    private ToolType outilChoisie = ToolType.CRAYON; // Default to crayon
+    private ToolType outilChoisie = ToolType.CRAYON; // Default crayon
 
     ConstraintLayout zoneDessin;
 
@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
 //            surf.invalidate();
         }
     }
-
 
 
     private void showCrayonTaille() {
