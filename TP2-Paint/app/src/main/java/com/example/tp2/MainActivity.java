@@ -27,12 +27,16 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    enum ToolType {
+//     le enum me permet d'invoquer mes constructeurs
+//    https://developer.android.com/reference/kotlin/java/lang/Enum
+//    https://www.w3schools.com/java/java_enums.asp
+    enum TypeOutil {
         CRAYON,
-        RECTANGLE
+        RECTANGLE,
+        CERCLE
     }
 
-    private ToolType outilChoisie = ToolType.CRAYON; // Default crayon
+    private TypeOutil outilChoisie = TypeOutil.CRAYON; // Default crayon
 
     ConstraintLayout zoneDessin;
 
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView largeur_trait;
     ImageView crayon;
     ImageView rectangle;
+    ImageView cercle;
     ImageView undo;
     ImageView peintureBackground;
 
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         undo = findViewById(R.id.undo);
         rectangle = findViewById(R.id.rectangle);
         crayon = findViewById(R.id.crayon);
+        cercle = findViewById(R.id.cercle);
 
         surf = new SurfaceDessin(this);
         surf.setLayoutParams(new ConstraintLayout.LayoutParams(-1, -1)); // Fill parent
@@ -99,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         couleurwheel.setOnClickListener(ecBouton);
         undo.setOnClickListener(ecBouton);
         rectangle.setOnClickListener(ecBouton);
+        cercle.setOnClickListener(ecBouton);
 //        p = new Path();
 
         Crayon crayonTool = new Crayon(epaisseurTrait, Color.BLUE);
@@ -120,24 +127,26 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TouchDebug", "X: " + x + " Y: " + y);
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (outilChoisie == ToolType.CRAYON) {
+                if (outilChoisie == TypeOutil.CRAYON) {
                     // creation d'un nouvelle objet Crayon
                     Crayon crayon = new Crayon(epaisseurTrait, Color.BLUE);
                     crayon.onTouchDown(x, y);
                     listeCrayon.add(crayon);
                     source.invalidate();
-                } else if (outilChoisie == ToolType.RECTANGLE) {
+                } else if (outilChoisie == TypeOutil.RECTANGLE) {
                     // creation d'un nouvelle objet Rectangle
                     Rectangle rectangle = new Rectangle(epaisseurTrait, Color.RED, new Path());
                     rectangle.onTouchDown(x, y);
                     listeCrayon.add(rectangle);
                     source.invalidate();
+                } else if (outilChoisie == TypeOutil.CERCLE){
+//                    Cercle cercle = new Cercle(epaisseurTrait,Color.GREEN,new Path());
                 }
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                if (outilChoisie == ToolType.CRAYON) {
+                if (outilChoisie == TypeOutil.CRAYON) {
                     Crayon crayon = (Crayon) listeCrayon.get(listeCrayon.size() - 1);
                     crayon.onTouchMove(x, y);
-                } else if (outilChoisie == ToolType.RECTANGLE) {
+                } else if (outilChoisie == TypeOutil.RECTANGLE) {
                     Rectangle rectangle = (Rectangle) listeCrayon.get(listeCrayon.size() - 1);
                     rectangle.onTouchMove(x, y);
                 }
@@ -152,10 +161,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View source) {
             if (source == crayon) {
                 // Gérer le clic sur le bouton "crayon" ici
-                outilChoisie = ToolType.CRAYON;
+                outilChoisie = TypeOutil.CRAYON;
             } else if (source == rectangle) {
                 // Gérer le clic sur le bouton "rectangle" ici
-                outilChoisie = ToolType.RECTANGLE;
+                outilChoisie = TypeOutil.RECTANGLE;
             } else if (source == largeur_trait) {
                 // Afficher le dialogue pour personnaliser le crayon
                 showCrayonTaille();
@@ -165,9 +174,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (source == peintureBackground) {
                 showColorDialog((ImageView) source);
             } else if (source == undo) {
-                if (outilChoisie == ToolType.CRAYON && !listeCrayon.isEmpty()) {
+                if (outilChoisie == TypeOutil.CRAYON && !listeCrayon.isEmpty()) {
                     listeCrayon.remove(listeCrayon.size() - 1);
-                } else if (outilChoisie == ToolType.RECTANGLE && !listeCrayon.isEmpty()) {
+                } else if (outilChoisie == TypeOutil.RECTANGLE && !listeCrayon.isEmpty()) {
                     listeCrayon.remove(listeCrayon.size() - 1);;
                 }
             }
@@ -177,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showCrayonTaille() {
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Épaisseur du trait");
@@ -232,19 +240,25 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
 
             // Draw crayons and rectangles
-            for (BoiteOutil tool : listeCrayon) {
-                c.setColor(tool.getCurrentCouleur());
-                c.setStrokeWidth(tool.getEpaisseurTrait());
+            for (BoiteOutil outil : listeCrayon) {
+                c.setColor(outil.getCurrentCouleur());
+                c.setStrokeWidth(outil.getEpaisseurTrait());
 
-                if (tool.isCrayon()) {
+                if (outil.isCrayon()) {
                     // crayon
-                    Crayon crayon = (Crayon) tool;
+                    Crayon crayon = (Crayon) outil;
                     canvas.drawPath(crayon.getPath(), crayon.getPaint());
                 } else {
                     // rectangle
-                    Rectangle rectangle = (Rectangle) tool;
+                    Rectangle rectangle = (Rectangle) outil;
                     canvas.drawRect(rectangle.getRect(), rectangle.getPaint());
+
                 }
+                Cercle cercle = (Cercle) outil;
+//                canvas.drawCircle(cercle);
+
+
+
             }
         }
     }

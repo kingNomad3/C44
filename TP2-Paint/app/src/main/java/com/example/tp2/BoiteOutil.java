@@ -4,15 +4,18 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 
 public abstract class BoiteOutil {
-    protected float epaisseurTrait;
-    protected int currentCouleur;
-    protected Path p;
+    private float epaisseurTrait;
+    private int currentCouleur;
+    private Path p;
+    private float x;
+    private float y;
 
 
     public BoiteOutil(float epaisseurTrait, int currentCouleur, Path p) {
         this.epaisseurTrait = epaisseurTrait;
         this.currentCouleur = currentCouleur;
         this.p = p;
+
     }
 
     public abstract void onTouchDown(float x, float y);
@@ -31,5 +34,7 @@ public abstract class BoiteOutil {
         return p;
     }
     public abstract boolean isCrayon();
+
+
 
 }
