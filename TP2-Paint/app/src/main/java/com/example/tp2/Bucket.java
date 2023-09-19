@@ -2,17 +2,14 @@ package com.example.tp2;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 
-public class Triangle extends BoiteOutil{
-
-    public Triangle(float epaisseurTrait, int currentCouleur, Paint p) {
+public class Bucket extends BoiteOutil{
+    public Bucket(float epaisseurTrait, int currentCouleur, Paint p) {
         super(epaisseurTrait, currentCouleur, p);
     }
 
     @Override
     public void onTouchDown(float x, float y) {
-
 
     }
 
@@ -25,7 +22,6 @@ public class Triangle extends BoiteOutil{
     public void draw(Canvas canvas) {
 
     }
-
 
 
 }

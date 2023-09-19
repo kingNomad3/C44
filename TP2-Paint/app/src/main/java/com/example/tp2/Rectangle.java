@@ -10,7 +10,7 @@ public class Rectangle extends BoiteOutil {
     private Paint paint;
     private RectF rect; // Utilisation de RectF pour représenter le rectangle
 
-    public Rectangle(float epaisseurTrait, int currentCouleur, Path p) {
+    public Rectangle(float epaisseurTrait, int currentCouleur, Paint p) {
         super(epaisseurTrait, currentCouleur, p);
         paint = new Paint();
         paint.setColor(currentCouleur);
@@ -50,8 +50,6 @@ public class Rectangle extends BoiteOutil {
         return rect;
     }
 
-    public boolean isCrayon() {
-        return false;
-    }
+
 }
 

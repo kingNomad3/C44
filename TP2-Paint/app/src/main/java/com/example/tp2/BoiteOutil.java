@@ -1,17 +1,18 @@
 package com.example.tp2;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
 
 public abstract class BoiteOutil {
     private float epaisseurTrait;
     private int currentCouleur;
-    private Path p;
+    private Paint p;
     private float x;
     private float y;
 
 
-    public BoiteOutil(float epaisseurTrait, int currentCouleur, Path p) {
+    public BoiteOutil(float epaisseurTrait, int currentCouleur, Paint p) {
         this.epaisseurTrait = epaisseurTrait;
         this.currentCouleur = currentCouleur;
         this.p = p;
@@ -30,11 +31,8 @@ public abstract class BoiteOutil {
         return currentCouleur;
     }
 
-    public Path getP() {
+    public Paint getP()  {
         return p;
     }
-    public abstract boolean isCrayon();
-
-
 
 }

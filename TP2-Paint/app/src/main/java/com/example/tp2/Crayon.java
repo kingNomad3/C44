@@ -46,10 +46,7 @@ public class Crayon extends BoiteOutil {
         return path;
     }
 
-    @Override
-    public boolean isCrayon() {
-        return true;
-    }
+
 }
 
 
