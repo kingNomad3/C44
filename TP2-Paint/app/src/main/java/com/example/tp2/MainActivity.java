@@ -12,6 +12,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // permet de choisir le type de crayon dans ma boite d'outil
-    private TypeOutil outilChoisie = TypeOutil.CRAYON; // Default crayon
+    private TypeOutil outilChoisie = TypeOutil.CRAYON; // par defaut crayon
 
     ConstraintLayout zoneDessin;
     SurfaceDessin surf;
 
     LinearLayout scrollOption;
     LinearLayout couleurwheel;
-    Button  buttonColorRed;
+    Button  couleurRouge;
     //Image view
     ImageView largeur_trait;
     ImageView crayon;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     Ecouteursurf ecSurf = new Ecouteursurf();
     EcouteurBouton ecBouton  = new EcouteurBouton();
     //ecoteurs pour les couleurs
+    EcouteurCouleur ecCouleur = new EcouteurCouleur();
 
     //not working
     private HashMap<Integer, Integer> primaryColorsMap = new HashMap<>();
@@ -66,10 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
     //controle l'epaiosseur des formes
     float epaisseurTrait =15; // 15 par defaut
+    int currentCouleur = R.color.black; // par default
 
     //paint
     Paint c;
     Paint paint;
+
 
     int backgroundColor = R.color.teal_200; // cbackground color par defaut
 
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         rectangle = findViewById(R.id.rectangle);
         crayon = findViewById(R.id.crayon);
         cercle = findViewById(R.id.cercle);
+        couleurRouge = findViewById(R.id.buttonColorRed);
 
         //surface de dessin
         surf = new SurfaceDessin(this);
@@ -111,15 +117,16 @@ public class MainActivity extends AppCompatActivity {
         undo.setOnClickListener(ecBouton);
         rectangle.setOnClickListener(ecBouton);
         cercle.setOnClickListener(ecBouton);
+        couleurRouge.setOnClickListener(ecCouleur);
         //triangle je comprends pas les calcules
         //couuleurs a faire
-        //changement de fond d,ecran voir le document du prof
+        //changement de fond d,ecran voir le document du prof utliser bitmap
         //effacer aucune idee
 
 
     }
 
-
+// a changer pour des cases
     private class Ecouteursurf implements View.OnTouchListener {
         @Override
         public boolean onTouch(View source, MotionEvent event) {
@@ -131,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 if (outilChoisie == TypeOutil.CRAYON) {
                     // Créer un nouvel objet Crayon
-                    Crayon crayon = new Crayon(epaisseurTrait, Color.BLUE);
+                    Crayon crayon = new Crayon(epaisseurTrait,currentCouleur);
                     crayon.onTouchDown(x, y);
                     listeCrayon.add(crayon);
                     source.invalidate();
@@ -196,6 +203,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private class EcouteurCouleur implements View.OnClickListener{
+        @SuppressLint("ResourceAsColor")
+        @Override
+        public void onClick(View source) {
+
+            Button butonCouleur  = (Button) source;
+            Drawable couleurId = (Drawable) butonCouleur.getBackground();
+
+            if (couleurId instanceof ColorDrawable) {
+                ColorDrawable temp  = (ColorDrawable) couleurId;
+                currentCouleur = temp.getColor(); // get child at
+            }
+
+//             = butonCouleur.getBackground(); //en color drawable et ensuite couleur
+//
+            System.out.println("couleur change");
+
+        }
+    }
+
     private void showCrayonTaille() {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -259,16 +286,16 @@ public class MainActivity extends AppCompatActivity {
                     // Crayon
                     Crayon crayon = (Crayon) outil;
 //                    pourquoi getP de ma boite a outil et paint ne marche pas
-                    canvas.drawPath(crayon.getPath(), crayon.getPaint());
+                    canvas.drawPath(crayon.getPath(), crayon.getP());
                 } else if (outil instanceof Rectangle) {
                     // Rectangle
                     Rectangle rectangle = (Rectangle) outil;
-                    canvas.drawRect(rectangle.getRect(), rectangle.getPaint());
+                    canvas.drawRect(rectangle.getRect(), rectangle.getP());
                 } else if (outil instanceof Cercle) {
                     // Cercle
                     Cercle cercle = (Cercle) outil;
                     // Dessinez le cercle en utilisant les propriétés de Cercle (rayon, x, y)
-                    canvas.drawCircle(cercle.getCenterX(), cercle.getCenterY(), cercle.getRayon(), cercle.getPaint());
+                    canvas.drawCircle(cercle.getCenterX(), cercle.getCenterY(), cercle.getRayon(), cercle.getP());
                 }
             }
         }

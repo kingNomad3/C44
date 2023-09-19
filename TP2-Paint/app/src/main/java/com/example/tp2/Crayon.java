@@ -8,15 +8,15 @@ import android.graphics.Path;
 public class Crayon extends BoiteOutil {
 
     private final Path path;
-    private Paint paint;
+//    private Paint paint;
 
     public Crayon(float epaisseurTrait, int currentCouleur) {
-        super(epaisseurTrait, currentCouleur, null); // Passez null pour le paramètre Path
-        paint = new Paint();
-        paint.setColor(currentCouleur);
-        paint.setStrokeWidth(epaisseurTrait);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
+        super(epaisseurTrait, currentCouleur, new Paint()); // Passez null pour le paramètre Path
+
+        getP().setColor(currentCouleur);
+        getP().setStrokeWidth(epaisseurTrait);
+        getP().setStyle(Paint.Style.STROKE);
+        getP().setAntiAlias(true);
         this.path = new Path();
     }
 
@@ -35,12 +35,9 @@ public class Crayon extends BoiteOutil {
     @Override
     public void draw(Canvas canvas) {
         // Dessinez le chemin sur le canevas en utilisant l'objet Paint spécifié
-        canvas.drawPath(path, paint);
+        canvas.drawPath(path,  getP());
     }
 
-    public Paint getPaint() {
-        return paint;
-    }
 
     public Path getPath() {
         return path;

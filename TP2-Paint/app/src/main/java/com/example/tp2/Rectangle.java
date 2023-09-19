@@ -11,12 +11,12 @@ public class Rectangle extends BoiteOutil {
     private RectF rect; // Utilisation de RectF pour représenter le rectangle
 
     public Rectangle(float epaisseurTrait, int currentCouleur, Paint p) {
-        super(epaisseurTrait, currentCouleur, p);
-        paint = new Paint();
-        paint.setColor(currentCouleur);
-        paint.setStrokeWidth(epaisseurTrait);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
+        super(epaisseurTrait, currentCouleur, new Paint());
+
+        getP().setColor(currentCouleur);
+        getP().setStrokeWidth(epaisseurTrait);
+        getP().setStyle(Paint.Style.STROKE);
+        getP().setAntiAlias(true);
         this.rect = new RectF();
     }
 
@@ -42,9 +42,6 @@ public class Rectangle extends BoiteOutil {
         canvas.drawRect(rect, paint);
     }
 
-    public Paint getPaint() {
-        return paint;
-    }
 
     public RectF getRect() {
         return rect;

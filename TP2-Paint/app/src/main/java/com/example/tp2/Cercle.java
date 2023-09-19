@@ -7,19 +7,19 @@ public class Cercle extends BoiteOutil {
     private float rayon;
     private float centerX;
     private float centerY;
-    private Paint paint;
+
 
 
     public Cercle(float epaisseurTrait, int currentCouleur, Paint p, float rayon) {
-        super(epaisseurTrait, currentCouleur, p);
+        super(epaisseurTrait, currentCouleur, new Paint());
         this.rayon = rayon;
         this.centerX = 0; // Définir les coordonnées initiales à (0, 0)
         this.centerY = 0;
-        this.paint = new Paint();
-        paint.setColor(currentCouleur);
-        paint.setStrokeWidth(epaisseurTrait);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
+
+        getP().setColor(currentCouleur);
+        getP().setStrokeWidth(epaisseurTrait);
+        getP().setStyle(Paint.Style.STROKE);
+        getP().setAntiAlias(true);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Cercle extends BoiteOutil {
     @Override
     public void draw(Canvas canvas) {
         // Dessiner le cercle sur le canvas en utilisant l'objet Paint spécifié
-        canvas.drawCircle(centerX, centerY, rayon, paint);
+        canvas.drawCircle(centerX, centerY, rayon, getP());
     }
 
     public float getRayon() {
@@ -53,8 +53,6 @@ public class Cercle extends BoiteOutil {
         return centerY;
     }
 
-    public Paint getPaint() {
-        return paint;
-    }
+
 }
 
