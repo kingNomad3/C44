@@ -18,9 +18,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 
 import java.util.ArrayList;
@@ -43,10 +46,23 @@ public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout zoneDessin;
     SurfaceDessin surf;
-
-    LinearLayout scrollOption;
     LinearLayout couleurwheel;
+
+    //Les couleurs
     Button  couleurRouge;
+    Button couleurBleu;
+    Button  couleurVert;
+    Button couleurJaune;
+    Button couleurOrange;
+    Button couleurBrun;
+    Button couleurBlanc;
+    Button couleurNoir;
+
+
+
+
+
+
     //Image view
     ImageView largeur_trait;
     ImageView crayon;
@@ -94,7 +110,17 @@ public class MainActivity extends AppCompatActivity {
         rectangle = findViewById(R.id.rectangle);
         crayon = findViewById(R.id.crayon);
         cercle = findViewById(R.id.cercle);
+
         couleurRouge = findViewById(R.id.buttonColorRed);
+        couleurBleu = findViewById(R.id.buttonColorBleu);
+        couleurVert = findViewById(R.id.buttonColorVert);
+        couleurJaune = findViewById(R.id.buttonColorJaune);
+        couleurRouge = findViewById(R.id.buttonColorOrange);
+        couleurBrun = findViewById(R.id.buttonColorBrun);
+        couleurBlanc = findViewById(R.id.buttonColorBleu);
+
+
+
 
         //surface de dessin
         surf = new SurfaceDessin(this);
@@ -107,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
 //        primaryColorsMap.put(R.id.buttonColorBlue, Color.BLUE);
 //        primaryColorsMap.put(R.id.buttonColorGreen, Color.GREEN);
 
+        initializePrimaryColorsMap();
+
         //association des ecouteurs
         surf.setOnTouchListener(ecSurf);
         largeur_trait.setOnClickListener(ecBouton);
@@ -118,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         rectangle.setOnClickListener(ecBouton);
         cercle.setOnClickListener(ecBouton);
         couleurRouge.setOnClickListener(ecCouleur);
+        couleurBleu.setOnClickListener(ecCouleur);
         //triangle je comprends pas les calcules
         //couuleurs a faire
         //changement de fond d,ecran voir le document du prof utliser bitmap
@@ -189,8 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 // Afficher le dialogue pour personnaliser la taille du crayon
                 showCrayonTaille();
             } else if (source == couleurwheel) {
-                // Gérer le clic sur le bouton "couleur" ici
-                // showCouleurDialog(); // Afficher le dialogue pour choisir la couleur
+                new EcouteurCouleur();
             } else if (source == peintureBackground) {
 //                showColorDialog((ImageView) source);
             } else if (source == undo) {
@@ -202,26 +230,64 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initializePrimaryColorsMap() {
+        primaryColorsMap.put(R.id.buttonColorRed, Color.RED);
+        primaryColorsMap.put(R.id.buttonColorBleu, Color.BLUE);
+        primaryColorsMap.put(R.id.buttonColorVert, Color.GREEN);
+        primaryColorsMap.put(R.id.buttonColorJaune, Color.YELLOW);
+        primaryColorsMap.put(R.id.buttonColorOrange, Color.parseColor("#FFA500")); // Orange
+        primaryColorsMap.put(R.id.buttonColorBrun, Color.parseColor("#8B4513")); // Brown
+        primaryColorsMap.put(R.id.buttonColorblanc, Color.WHITE);
+        primaryColorsMap.put(R.id.buttonColorNoir, Color.BLACK);
 
-    private class EcouteurCouleur implements View.OnClickListener{
-        @SuppressLint("ResourceAsColor")
+    }
+
+
+    private class EcouteurCouleur implements View.OnClickListener {
         @Override
         public void onClick(View source) {
+            int buttonId = source.getId();
 
-            Button butonCouleur  = (Button) source;
-            Drawable couleurId = (Drawable) butonCouleur.getBackground();
-
-            if (couleurId instanceof ColorDrawable) {
-                ColorDrawable temp  = (ColorDrawable) couleurId;
-                currentCouleur = temp.getColor(); // get child at
+            if (primaryColorsMap.containsKey(buttonId)) {
+                currentCouleur = primaryColorsMap.get(buttonId);
+                surf.invalidate();
             }
-
-//             = butonCouleur.getBackground(); //en color drawable et ensuite couleur
-//
-            System.out.println("couleur change");
-
         }
     }
+
+
+//    private class EcouteurCouleur implements View.OnClickListener {
+//        @SuppressLint("ResourceAsColor")
+//        @Override
+//        public void onClick(View source) {
+//
+//            Button butonCouleur = (Button) source;
+//            Drawable couleurId = (Drawable) butonCouleur.getBackground();
+//
+//            if (couleurId instanceof ColorDrawable) {
+//                ColorDrawable temp = (ColorDrawable) couleurId;
+//                currentCouleur = temp.getColor();
+//            }
+//            surf.invalidate();
+//
+//            // Accéder à tous les boutons dans le LinearLayout "couleurwheel" et définir un OnClickListener
+//            ViewParent parentView = source.getParent();
+//
+//            if (parentView instanceof ScrollView) {
+//                ScrollView scrollView = (ScrollView) parentView;
+//                LinearLayout couleurwheel = (LinearLayout) scrollView.getChildAt(0); // le linear layout and le premier enfant
+//                for (int i = 0; i < couleurwheel.getChildCount(); i++) {
+//                    View childView = couleurwheel.getChildAt(i);
+//
+//                    if (childView instanceof Button) {
+//                        Button button = (Button) childView;
+//                        button.setOnClickListener(new EcouteurCouleur());
+//                    }
+//                }
+//            }
+//            System.out.println("Couleur changée : " + currentCouleur);
+//        }
+//    }
 
     private void showCrayonTaille() {
 
@@ -244,27 +310,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setNegativeButton("Annuler", null);
                 builder.show();
 
-        }
+    }
 
-
-//            private void showColorDialog(final ImageView colorButton) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                builder.setTitle("Choose a Color");
-//
-//                // liste des couleur
-//                final String[] colorNames = {"Blue", "Red", "Green"};
-//
-//                builder.setItems(colorNames, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        int selectedColor = primaryColorsMap.get(colorButton.getId());
-//                        peintureBackground.setBackgroundColor(selectedColor);
-//                    }
-//                });
-//
-//                builder.setNegativeButton("Cancel", null);
-//                builder.show();
-//            }
 
 
     private class SurfaceDessin extends View {

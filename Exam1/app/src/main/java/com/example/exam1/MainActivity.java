@@ -6,14 +6,15 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button avionView;
-    Button hotelView;
+    ImageView avionView;
+    ImageView hotelView;
     Button totalBouton;
     TextView textAvion;
     TextView textHotel;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         avionView = findViewById(R.id.avionView);
         hotelView = findViewById(R.id.hotelView);
@@ -42,28 +44,34 @@ public class MainActivity extends AppCompatActivity {
         avionView.setOnClickListener(ec);
         hotelView.setOnClickListener(ec);
         totalBouton.setOnClickListener(ec);
-
-
-        setContentView(R.layout.activity_main);
     }
 
     private class Ecouteur implements View.OnClickListener {
 
+        int compteurH, compteurC;
+        Commande c = new Commande();
+
         @Override
         public void onClick(View v) {
-            String totalAvion = textAvion.getText().toString();
-            String totalhotel = textHotel.getText().toString();
-            String grandTotal = textTotal.getText().toString();
+
 
             if ( v == avionView){
-                textAvion.setText(String.valueOf(totalAvion));
+
+                compteurH++;
+                textAvion.setText(String.valueOf(compteurH));
+
 
             } else if (v == hotelView) {
-                textHotel.setText(String.valueOf(totalhotel));
+                compteurC++;
+                textHotel.setText(String.valueOf(compteurH));
 
             }
             if (v == totalBouton){
-//                grandTotal.setText(df.format(String.valueOf(grandTotal)));
+                c.ajouterProduit( new BilletAvion(compteurH));
+                c.ajouterProduit(new HebergementHotel(compteurC));
+                double grTotal = c.grandTotal();
+                textTotal.setText(new DecimalFormat("0.00$").format(grTotal));
+
             }
 
         }
