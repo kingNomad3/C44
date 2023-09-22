@@ -15,7 +15,7 @@ public class Cercle extends BoiteOutil {
         this.rayon = rayon;
         this.centerX = 0; // Définir les coordonnées initiales à (0, 0)
         this.centerY = 0;
-
+//remove this
         getP().setColor(currentCouleur);
         getP().setStrokeWidth(epaisseurTrait);
         getP().setStyle(Paint.Style.STROKE);
