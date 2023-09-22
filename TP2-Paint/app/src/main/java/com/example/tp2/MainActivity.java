@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     Paint c;
     Paint paint;
 
-
+    ViewParent parentView = couleurwheel ;
     int backgroundColor = R.color.teal_200; // cbackground color par defaut
 
     @SuppressLint("MissingInflatedId")
@@ -123,7 +123,18 @@ public class MainActivity extends AppCompatActivity {
         couleurBrun = findViewById(R.id.buttonColorBrun);
         couleurBlanc = findViewById(R.id.buttonColorBleu);
 
-
+//        if (parentView instanceof ScrollView) {
+//            ScrollView scrollView = (ScrollView) parentView;
+//            LinearLayout couleurwheel = (LinearLayout) scrollView.getChildAt(0); // le linear layout and le premier enfant
+            for (int i = 0; i < couleurwheel.getChildCount(); i++) {
+                View childView = couleurwheel.getChildAt(i);
+                System.out.println("allo");
+                if (childView instanceof Button) {
+                    Button button = (Button) childView;
+                    button.setOnClickListener(ecCouleur);
+                }
+            }
+//        }
 
 
         //surface de dessin
@@ -137,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 //        primaryColorsMap.put(R.id.buttonColorBlue, Color.BLUE);
 //        primaryColorsMap.put(R.id.buttonColorGreen, Color.GREEN);
 
-        initializePrimaryColorsMap();
+//        initializePrimaryColorsMap();
 
         //association des ecouteurs
         surf.setOnTouchListener(ecSurf);
@@ -236,64 +247,55 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initializePrimaryColorsMap() {
-        primaryColorsMap.put(R.id.buttonColorRed, Color.RED);
-        primaryColorsMap.put(R.id.buttonColorBleu, Color.BLUE);
-        primaryColorsMap.put(R.id.buttonColorVert, Color.GREEN);
-        primaryColorsMap.put(R.id.buttonColorJaune, Color.YELLOW);
-        primaryColorsMap.put(R.id.buttonColorOrange, Color.parseColor("#FFA500")); // Orange
-        primaryColorsMap.put(R.id.buttonColorBrun, Color.parseColor("#8B4513")); // Brown
-        primaryColorsMap.put(R.id.buttonColorblanc, Color.WHITE);
-        primaryColorsMap.put(R.id.buttonColorNoir, Color.BLACK);
-
-    }
+//    private void initializePrimaryColorsMap() {
+//        primaryColorsMap.put(R.id.buttonColorRed, Color.RED);
+//        primaryColorsMap.put(R.id.buttonColorBleu, Color.BLUE);
+//        primaryColorsMap.put(R.id.buttonColorVert, Color.GREEN);
+//        primaryColorsMap.put(R.id.buttonColorJaune, Color.YELLOW);
+//        primaryColorsMap.put(R.id.buttonColorOrange, Color.parseColor("#FFA500")); // Orange
+//        primaryColorsMap.put(R.id.buttonColorBrun, Color.parseColor("#8B4513")); // Brown
+//        primaryColorsMap.put(R.id.buttonColorblanc, Color.WHITE);
+//        primaryColorsMap.put(R.id.buttonColorNoir, Color.BLACK);
+//
+//    }
+//
+//
+//    private class EcouteurCouleur implements View.OnClickListener {
+//        @Override
+//        public void onClick(View source) {
+//            int buttonId = source.getId();
+//
+//            if (primaryColorsMap.containsKey(buttonId)) {
+//                currentCouleur = primaryColorsMap.get(buttonId);
+//                surf.invalidate();
+//            }
+//        }
+//    }
 
 
     private class EcouteurCouleur implements View.OnClickListener {
+
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onClick(View source) {
-            int buttonId = source.getId();
 
-            if (primaryColorsMap.containsKey(buttonId)) {
-                currentCouleur = primaryColorsMap.get(buttonId);
-                surf.invalidate();
-            }
-        }
-    }
+            Button butonCouleur = (Button) source;
+            Drawable couleurId = butonCouleur.getBackground();
 
-
-//    private class EcouteurCouleur implements View.OnClickListener {
-//        @SuppressLint("ResourceAsColor")
-//        @Override
-//        public void onClick(View source) {
-//
-//            Button butonCouleur = (Button) source;
-//            Drawable couleurId = (Drawable) butonCouleur.getBackground();
-//
 //            if (couleurId instanceof ColorDrawable) {
-//                ColorDrawable temp = (ColorDrawable) couleurId;
-//                currentCouleur = temp.getColor();
+//                System.out.println("check couleur");
+            ColorDrawable temp = (ColorDrawable) couleurId;
+            currentCouleur = temp.getColor();
 //            }
 //            surf.invalidate();
-//
-//            // Accéder à tous les boutons dans le LinearLayout "couleurwheel" et définir un OnClickListener
-//            ViewParent parentView = source.getParent();
-//
-//            if (parentView instanceof ScrollView) {
-//                ScrollView scrollView = (ScrollView) parentView;
-//                LinearLayout couleurwheel = (LinearLayout) scrollView.getChildAt(0); // le linear layout and le premier enfant
-//                for (int i = 0; i < couleurwheel.getChildCount(); i++) {
-//                    View childView = couleurwheel.getChildAt(i);
-//
-//                    if (childView instanceof Button) {
-//                        Button button = (Button) childView;
-//                        button.setOnClickListener(new EcouteurCouleur());
-//                    }
-//                }
-//            }
-//            System.out.println("Couleur changée : " + currentCouleur);
-//        }
-//    }
+
+            // Accéder à tous les boutons dans le LinearLayout "couleurwheel" et définir un OnClickListener
+
+
+
+            System.out.println("Couleur changée : " + currentCouleur);
+        }
+    }
 
     private void showCrayonTaille() {
 

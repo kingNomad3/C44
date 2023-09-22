@@ -28,13 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#EC0202"
-                android:shadowColor="#C52A2A"
-                android:textColor="#FFF3F3"
-                android:textColorHighlight="#FF2929"
-                android:textColorHint="#F61515"
-                android:textColorLink="#BA2121"
-                app:rippleColor="#D81818"
-                app:strokeColor="#FF5722" />
+               />
 
             <Button
                 android:id="@+id/buttonColorBleu"
