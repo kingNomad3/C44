@@ -8,8 +8,7 @@ public abstract class BoiteOutil {
     private float epaisseurTrait;
     private int currentCouleur;
     private Paint p;
-    private float x;
-    private float y;
+
 
 
     public BoiteOutil(float epaisseurTrait, int currentCouleur, Paint p) {

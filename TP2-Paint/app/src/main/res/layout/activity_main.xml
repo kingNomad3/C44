@@ -27,57 +27,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#EC0202"
-               />
+                android:background="#EC0202" />
 
             <Button
                 android:id="@+id/buttonColorBleu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#2196F3" />
+                android:background="#2196F3" />
 
             <Button
                 android:id="@+id/buttonColorVert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#4CAF50" />
+                android:background="#4CAF50" />
 
             <Button
                 android:id="@+id/buttonColorJaune"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#FFEB3B" />
+                android:background="#FFEB3B" />
 
             <Button
                 android:id="@+id/buttonColorOrange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#FF5722" />
+                android:background="#FF5722" />
 
             <Button
                 android:id="@+id/buttonColorBrun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#A62E25" />
+                android:background="#A62E25" />
 
             <Button
                 android:id="@+id/buttonColorblanc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#FFFFFF" />
+                android:background="#FFFFFF" />
 
             <Button
                 android:id="@+id/buttonColorNoir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#000000" />
+                android:background="#000000" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -100,6 +99,13 @@
             android:layout_height="match_parent"
             android:layout_weight="10"
             android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pipette"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/pipette" />
 
             <ImageView
                 android:id="@+id/peintureBackground"

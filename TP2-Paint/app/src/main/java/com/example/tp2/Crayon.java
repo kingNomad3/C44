@@ -8,15 +8,11 @@ import android.graphics.Path;
 public class Crayon extends BoiteOutil {
 
     private final Path path;
-//    private Paint paint;
+
 
     public Crayon(float epaisseurTrait, int currentCouleur) {
-        super(epaisseurTrait, currentCouleur, new Paint()); // Passez null pour le paramètre Path
-//delete this
-        getP().setColor(currentCouleur);
-        getP().setStrokeWidth(epaisseurTrait);
-        getP().setStyle(Paint.Style.STROKE);
-        getP().setAntiAlias(true);
+        super(epaisseurTrait, currentCouleur, new Paint());
+
         this.path = new Path();
     }
 

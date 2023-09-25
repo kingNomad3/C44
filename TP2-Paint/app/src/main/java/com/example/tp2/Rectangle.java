@@ -12,11 +12,6 @@ public class Rectangle extends BoiteOutil {
 
     public Rectangle(float epaisseurTrait, int currentCouleur, Paint p) {
         super(epaisseurTrait, currentCouleur, new Paint());
-
-        getP().setColor(currentCouleur);
-        getP().setStrokeWidth(epaisseurTrait);
-        getP().setStyle(Paint.Style.STROKE);
-        getP().setAntiAlias(true);
         this.rect = new RectF();
     }
 

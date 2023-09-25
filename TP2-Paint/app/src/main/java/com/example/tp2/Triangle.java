@@ -22,7 +22,9 @@ public class Triangle extends BoiteOutil {
 
     @Override
     public void onTouchMove(float x, float y) {
+//        je n'ai pas exactement compris votre facon de faire, alors j'ai trouver une solution
 //        https://kylewbanks.com/blog/drawing-triangles-rhombuses-and-other-shapes-on-android-canvas
+
         path.reset(); // Effacez le chemin précédent
 
         // Calculez les sommets du triangle en fonction de la position de la souris

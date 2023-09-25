@@ -7,6 +7,7 @@ private int nbMois;
 
 private static final double INTERET = 0.024/12;  // 12 mois, taux d interet annuel
                                                     // peut ecrire exception tout cours et ou ajouter une virgule et en ajotuer NegativeMontantException, ...,...
+  //le throw va permettre de pousser l'exception dans la pill d'appek
   public Placement( double montant, int nbMois) throws NegativeMontantException  // indique explicitement qu'une exception peut être lancée
   {
     if (montant <= 0){
