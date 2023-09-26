@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.Vector;
 
+import bla.HashtableAssociation;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         // remplir les spinner à l'aide de la Hashtable
 
-        try {
-            Inscrit i = new Inscrit(champPrenom,champNom,champAdresse,spinnerCapitale,spinnerEtat,champZip);
-        }
+        HashtableAssociation h = new HashtableAssociation();
+        Set<String> s = h.keySet();
+        Vector<String> v = new Vector<>()
 
 
     }

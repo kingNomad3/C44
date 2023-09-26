@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView rectangle;
     ImageView cercle;
     ImageView undo;
-    ImageView peintureBackground;
+    ImageView potPeinture;
     ImageView triangle;
     ImageView pipette;
     ImageView efface;
@@ -71,14 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
     //controle l'epaiosseur des formes
     float epaisseurTrait =15; // 15 par defaut
-    int currentCouleur = R.color.black; // par default
-
-    //paint
-    Paint c;
-    Paint paint;
-
-
+    int currentCouleur = R.color.black; // par default<
     int backgroundColor = R.color.teal_200; // cbackground color par defaut
+
+    Paint paint;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         //assignement des id
         zoneDessin = findViewById(R.id.zoneDessin);
         largeur_trait = findViewById(R.id.largeur_trait);
-        peintureBackground = findViewById(R.id.peintureBackground);
+        potPeinture = findViewById(R.id.peintureBackground);
         couleurwheel = findViewById(R.id.couleurwheel);
         undo = findViewById(R.id.undo);
         pipette = findViewById(R.id.pipette);
@@ -101,26 +98,15 @@ public class MainActivity extends AppCompatActivity {
         efface = findViewById(R.id.efface);
 
 
-//        couleurRouge = findViewById(R.id.buttonColorRed);
-//        couleurBleu = findViewById(R.id.buttonColorBleu);
-//        couleurVert = findViewById(R.id.buttonColorVert);
-//        couleurJaune = findViewById(R.id.buttonColorJaune);
-//        couleurRouge = findViewById(R.id.buttonColorOrange);
-//        couleurBrun = findViewById(R.id.buttonColorBrun);
-//        couleurBlanc = findViewById(R.id.buttonColorBleu);
 
-//        if (parentView instanceof ScrollView) {
-//            ScrollView scrollView = (ScrollView) parentView;
-//            LinearLayout couleurwheel = (LinearLayout) scrollView.getChildAt(0); // le linear layout and le premier enfant
             for (int i = 0; i < couleurwheel.getChildCount(); i++) {
                 View childView = couleurwheel.getChildAt(i);
-                System.out.println("allo");
                 if (childView instanceof Button) {
                     Button button = (Button) childView;
                     button.setOnClickListener(ecCouleur);
                 }
             }
-//        }
+
 
 
         //surface de dessin
@@ -137,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         crayon.setOnClickListener(ecBouton);
         triangle.setOnClickListener(ecBouton);
         pipette.setOnClickListener(ecBouton);
-        peintureBackground.setOnClickListener(ecBouton);
+        potPeinture.setOnClickListener(ecBouton);
         couleurwheel.setOnClickListener(ecBouton);
 //        redo tableau pour les variavbles temp?
         undo.setOnClickListener(ecBouton);
@@ -157,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class Ecouteursurf implements View.OnTouchListener {
+        @SuppressLint("ResourceAsColor")
         @Override
         public boolean onTouch(View source, MotionEvent event) {
             float x = event.getX();
@@ -183,12 +170,10 @@ public class MainActivity extends AppCompatActivity {
                     listeCrayon.add(triangle);
                 } else if (outilChoisie == TypeOutil.PIPETTE) {
                     Pipette pipette = new Pipette(epaisseurTrait, currentCouleur, paint);
-                    Bitmap image = pipette.getBitmapImage(source);
-                    int pixelColor = image.getPixel((int) x, (int) y);
-                    currentCouleur = pixelColor;
+//                    currentCouleur = pipette.getBitmapImage().getPixel((int) x,(int) y);
                 } else if (outilChoisie == TypeOutil.EFFACE) {
-                    // Create an Efface (Eraser) object with the background color
-                    Efface efface = new Efface(epaisseurTrait, backgroundColor, new Path());
+                    currentCouleur = backgroundColor;
+                    Efface efface = new Efface(epaisseurTrait, currentCouleur, new Path());
                     efface.onTouchDown(x, y);
                     listeCrayon.add(efface);
                     System.out.println("efface");
@@ -207,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class EcouteurBouton implements View.OnClickListener {
+
         @Override
         public void onClick(View source) {
             if (source == crayon) {
@@ -227,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (source == couleurwheel) {
                 // Code pour gérer la sélection de couleur
                 new EcouteurCouleur();
-            } else if (source == peintureBackground) {
+            } else if (source == potPeinture) {
                 // Code pour changer le fond d'écran
             } else if (source == undo) {
                 if (!listeCrayon.isEmpty()) {
@@ -239,12 +225,12 @@ public class MainActivity extends AppCompatActivity {
             } else if (source == efface) {
                 // Activer l'outil "Efface" lorsque le bouton "effaceButton" est cliqué
                 outilChoisie = TypeOutil.EFFACE;
+
             }
 
             surf.invalidate();
         }
     }
-
 
     private class EcouteurCouleur implements View.OnClickListener {
 
@@ -285,10 +271,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private class SurfaceDessin extends View {
+        public Bitmap getBitmapImage() {
+
+            this.buildDrawingCache();
+            Bitmap bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
+            this.destroyDrawingCache();
+
+            return bitmapImage;
+        }
+
         public SurfaceDessin(Context context) {
             super(context);
         }
 
+        @SuppressLint("ResourceAsColor")
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
@@ -316,51 +312,17 @@ public class MainActivity extends AppCompatActivity {
                     Triangle triangle = (Triangle) outil;
                     canvas.drawPath(triangle.getPath(), paint);
                 } else if (outil instanceof Efface) {
-                    // Efface (Eraser)
+                    // Recuperer la surface en ColorDrawable
+                    ColorDrawable cd = (ColorDrawable)surf.getBackground();
+                    paint.setColor(cd.getColor());
                     Efface efface = (Efface) outil;
                     canvas.drawPath(efface.getPath(),paint);
+                } else if (outil instanceof  Pipette) {
+                    System.out.println("bipmap");
+                    currentCouleur = getBitmapImage().getPixel((int) getX(),(int) getY());
                 }
             }
         }
     }
-
-//    private class SurfaceDessin extends View {
-//        public SurfaceDessin(Context context) {
-//            super(context);
-//            c = new Paint(Paint.ANTI_ALIAS_FLAG);
-//            c.setStyle(Paint.Style.STROKE);
-//        }
-//
-//
-//        protected void onDraw(Canvas canvas) {
-//            super.onDraw(canvas);
-//
-//            // Dessiner les crayons, rectangles, cercles et triangles
-//            for (BoiteOutil outil : listeCrayon) {
-//                c.setColor(outil.getCurrentCouleur());
-//                c.setStrokeWidth(outil.getEpaisseurTrait());
-//
-//                if (outil instanceof Crayon) {
-//                    // Crayon
-//                    Crayon crayon = (Crayon) outil;
-//                    canvas.drawPath(crayon.getPath(), crayon.getP());
-//                } else if (outil instanceof Rectangle) {
-//                    // Rectangle
-//                    Rectangle rectangle = (Rectangle) outil;
-//                    canvas.drawRect(rectangle.getRect(), rectangle.getP());
-//                } else if (outil instanceof Cercle) {
-//                    // Cercle
-//                    Cercle cercle = (Cercle) outil;
-//                    canvas.drawCircle(cercle.getCenterX(), cercle.getCenterY(), cercle.getRayon(), cercle.getP());
-//                } else if (outil instanceof Triangle) {
-//                    // Triangle
-//                    Triangle triangle = (Triangle) outil;
-//                    canvas.drawPath(triangle.getPath(), paint);
-//                }
-//            }
-//        }
-//    }
-
-
 }
 

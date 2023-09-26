@@ -42,4 +42,6 @@ public class Efface extends BoiteOutil {
     public int getBackgroundColor() {
         return backgroundColor;
     }
+
+
 }

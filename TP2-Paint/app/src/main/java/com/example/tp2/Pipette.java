@@ -11,7 +11,7 @@ public class Pipette extends BoiteOutil {
         super(epaisseurTrait, currentCouleur, p);
     }
 
-    // Modify the existing method to work with the View
+
     public Bitmap getBitmapImage(View view) {
         view.buildDrawingCache();
         Bitmap bitmapImage = Bitmap.createBitmap(view.getDrawingCache());
@@ -22,17 +22,17 @@ public class Pipette extends BoiteOutil {
 
     @Override
     public void onTouchDown(float x, float y) {
-        // Implement this method as needed for your pipette functionality
+
     }
 
     @Override
     public void onTouchMove(float x, float y) {
-        // Implement this method as needed for your pipette functionality
+
     }
 
     @Override
     public void draw(Canvas canvas) {
-        // Implement this method as needed for your pipette functionality
+
     }
 
 
