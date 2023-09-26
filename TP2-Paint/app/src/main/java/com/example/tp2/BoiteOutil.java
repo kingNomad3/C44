@@ -34,4 +34,7 @@ public abstract class BoiteOutil {
         return p;
     }
 
+    public void setCurrentCouleur(int currentCouleur) {
+        this.currentCouleur = currentCouleur;
+    }
 }
