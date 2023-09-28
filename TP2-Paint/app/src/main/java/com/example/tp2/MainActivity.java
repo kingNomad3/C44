@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
@@ -37,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
         RECTANGLE,
         CERCLE,
         TRIANGLE,
-    EFFACE, PIPETTE
+        EFFACE,
 
     }
 
     // permet de choisir le type de crayon dans ma boite d'outil
     private TypeOutil outilChoisie = TypeOutil.CRAYON; // par defaut crayon
 
+    //surface de dessin
     ConstraintLayout zoneDessin;
     SurfaceDessin surf;
     LinearLayout couleurwheel;
@@ -63,21 +63,22 @@ public class MainActivity extends AppCompatActivity {
     //ecouteurs
     Ecouteursurf ecSurf = new Ecouteursurf();
     EcouteurBouton ecBouton  = new EcouteurBouton();
-    //ecoteurs pour les couleurs
     EcouteurCouleur ecCouleur = new EcouteurCouleur();
 
 
     //tableau pour passer toutes les formes
     ArrayList<BoiteOutil> listeCrayon = new ArrayList<>();
+    //tableau temporaire pour le redo
+    ArrayList<BoiteOutil> redo = new ArrayList<>();
 
-    //controle l'epaiosseur des formes
+    //par defaut
     float epaisseurTrait =15; // 15 par defaut
     int currentCouleur = R.color.black; // par default<
-    int backgroundColor = R.color.teal_200; // cbackground color par defaut
+    int backgroundColor = R.color.white; // cbackground color par defaut
 
     Paint paint;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         //assignement des id
         zoneDessin = findViewById(R.id.zoneDessin);
         largeur_trait = findViewById(R.id.largeur_trait);
-        potPeinture = findViewById(R.id.peintureBackground);
+        potPeinture = findViewById(R.id.potPeinture);
         couleurwheel = findViewById(R.id.couleurwheel);
         undo = findViewById(R.id.undo);
         pipette = findViewById(R.id.pipette);
@@ -168,15 +169,12 @@ public class MainActivity extends AppCompatActivity {
                     Triangle triangle = new Triangle(epaisseurTrait, currentCouleur, paint);
                     triangle.onTouchDown(x, y);
                     listeCrayon.add(triangle);
-                } else if (outilChoisie == TypeOutil.PIPETTE) {
-                    Pipette pipette = new Pipette(epaisseurTrait, currentCouleur, paint);
-//                    currentCouleur = pipette.getBitmapImage().getPixel((int) x,(int) y);
                 } else if (outilChoisie == TypeOutil.EFFACE) {
-                    currentCouleur = backgroundColor;
+//                    currentCouleur = backgroundColor;
                     Efface efface = new Efface(epaisseurTrait, currentCouleur, new Path());
                     efface.onTouchDown(x, y);
                     listeCrayon.add(efface);
-                    System.out.println("efface");
+//                    System.out.println("efface");
                 }
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 if (!listeCrayon.isEmpty()) {
@@ -214,18 +212,19 @@ public class MainActivity extends AppCompatActivity {
                 // Code pour gérer la sélection de couleur
                 new EcouteurCouleur();
             } else if (source == potPeinture) {
-                // Code pour changer le fond d'écran
+                // change la couleur de fond
+                surf.setBackgroundColor(currentCouleur);
             } else if (source == undo) {
                 if (!listeCrayon.isEmpty()) {
                     listeCrayon.remove(listeCrayon.size() - 1);
                 }
             } else if (source == pipette) {
                 // Activer la pipette lorsque le bouton "pipette" est cliqué
-                outilChoisie = TypeOutil.PIPETTE;
+                System.out.println("bipmap");
+                outilChoisie = TypeOutil.CRAYON;
             } else if (source == efface) {
                 // Activer l'outil "Efface" lorsque le bouton "effaceButton" est cliqué
                 outilChoisie = TypeOutil.EFFACE;
-
             }
 
             surf.invalidate();
@@ -317,7 +316,9 @@ public class MainActivity extends AppCompatActivity {
                     paint.setColor(cd.getColor());
                     Efface efface = (Efface) outil;
                     canvas.drawPath(efface.getPath(),paint);
-                } else if (outil instanceof  Pipette) {
+                } else {
+                    Log.d("PipetteDebug", "Current Color: " + Integer.toHexString(currentCouleur));
+
                     System.out.println("bipmap");
                     currentCouleur = getBitmapImage().getPixel((int) getX(),(int) getY());
                 }

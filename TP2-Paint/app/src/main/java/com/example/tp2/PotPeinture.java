@@ -3,8 +3,8 @@ package com.example.tp2;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class Bucket extends BoiteOutil{
-    public Bucket(float epaisseurTrait, int currentCouleur, Paint p) {
+public class PotPeinture extends BoiteOutil{
+    public PotPeinture(float epaisseurTrait, int currentCouleur, Paint p) {
         super(epaisseurTrait, currentCouleur, p);
     }
 
@@ -25,3 +25,5 @@ public class Bucket extends BoiteOutil{
 
 
 }
+
+

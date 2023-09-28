@@ -84,9 +84,7 @@
         android:id="@+id/zoneDessin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="50">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_weight="50"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -108,7 +106,7 @@
                 app:srcCompat="@drawable/pipette" />
 
             <ImageView
-                android:id="@+id/peintureBackground"
+                android:id="@+id/potPeinture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/remplir" />

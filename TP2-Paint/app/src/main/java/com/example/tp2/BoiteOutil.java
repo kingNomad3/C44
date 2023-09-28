@@ -6,7 +6,7 @@ import android.graphics.Path;
 
 public abstract class BoiteOutil {
     private float epaisseurTrait;
-    private int currentCouleur;
+    public int currentCouleur;
     private Paint p;
 
 
