@@ -9,19 +9,15 @@ public abstract class BoiteOutil {
     public int currentCouleur;
     private Paint p;
 
-
-
     public BoiteOutil(float epaisseurTrait, int currentCouleur, Paint p) {
         this.epaisseurTrait = epaisseurTrait;
         this.currentCouleur = currentCouleur;
         this.p = p;
 
     }
-
     public abstract void onTouchDown(float x, float y);
     public abstract void onTouchMove(float x, float y);
     public abstract void draw(Canvas canvas);
-
     public float getEpaisseurTrait() {
         return epaisseurTrait;
     }
@@ -34,7 +30,4 @@ public abstract class BoiteOutil {
         return p;
     }
 
-    public void setCurrentCouleur(int currentCouleur) {
-        this.currentCouleur = currentCouleur;
-    }
 }

@@ -5,26 +5,22 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 public class Triangle extends BoiteOutil {
-    private Path path; // The path to draw the triangle
-    private float startX, startY; // Starting coordinates for drawing the triangle
-
+    private Path path;
+    private float startX, startY;
     public Triangle(float epaisseurTrait, int currentCouleur, Paint p) {
         super(epaisseurTrait, currentCouleur, p);
         path = new Path();
     }
-
     @Override
     public void onTouchDown(float x, float y) {
         startX = x;
         startY = y;
         path.moveTo(x, y);
     }
-
     @Override
     public void onTouchMove(float x, float y) {
 //        je n'ai pas exactement compris votre facon de faire, alors j'ai trouver une solution
 //        https://kylewbanks.com/blog/drawing-triangles-rhombuses-and-other-shapes-on-android-canvas
-
         path.reset(); // Effacez le chemin précédent
 
         // Calculez les sommets du triangle en fonction de la position de la souris
@@ -48,16 +44,15 @@ public class Triangle extends BoiteOutil {
             y3 = startY + hauteur / 2;
         }
 
-        // Définissez le chemin pour le triangle
+        // Définis le chemin pour le triangle
         path.moveTo(x1, y1);
         path.lineTo(x2, y2);
         path.lineTo(x3, y3);
-        path.close(); // Fermez le chemin pour compléter le triangle
+        path.close(); // Ferme le chemin pour compléter le triangle
     }
 
     @Override
     public void draw(Canvas canvas) {
-        // Draw the triangle on the canvas using the specified Paint object
         canvas.drawPath(path, getP());
     }
 
@@ -65,13 +60,6 @@ public class Triangle extends BoiteOutil {
         return path;
     }
 
-    public float getStartX() {
-        return startX;
-    }
-
-    public float getStartY() {
-        return startY;
-    }
 }
 
 
