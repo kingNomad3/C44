@@ -32,7 +32,7 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:gravity="center_vertical|center_horizontal|center"
-            android:text="CARDS LEFT"
+            android:text="Cartes"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:gravity="center_vertical|center_horizontal|center"
-            android:text="TIME"
+            android:text="Temps"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
             android:layout_column="2"
             android:layout_columnWeight="1"
             android:gravity="center_vertical|center_horizontal|center"
-            android:text="SCORE"
+            android:text="Pointage"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
