@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="100dp"
+    android:width="100dp"
+    android:viewportHeight="100"
+    android:viewportWidth="100" >
+    <group
+        android:name="triableGroup">
+
+        <gradient
+            android:angle="225"
+            android:endColor="#F44336"
+            android:startColor="#000000" />
+        <path
+            android:name="triangle"
+            android:angle="225"
+            android:pathData="M 0,100 L 50,0 100,100 z"/>
+    </group>
+</vector>
+    <!--    "M 0,100 L 50,0 100,100 z" flip de l;autre coter-->
