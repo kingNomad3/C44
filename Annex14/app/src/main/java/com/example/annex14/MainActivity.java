@@ -45,24 +45,40 @@ MainActivity extends AppCompatActivity {
         public boolean onDrag(View source, DragEvent event) {
             switch (event.getAction()) {
                 // on préfère cela lorsque c'est une constante, on l'appelle toujours sur le main
+//                case DragEvent.ACTION_DRAG_ENTERED:
+//                    //sois un ou l'autre pas obliger de changer dans l'interface la drawable
+////                        source.setBackground(selectTriangle);
+//                        source.setBackground(select);
+//                    break;
+//
+//                case DragEvent.ACTION_DRAG_EXITED:
+//                case DragEvent.ACTION_DRAG_ENDED:
+////                        source.setBackground(normalTriangle);
+//                        source.setBackground(normal);
+//                    break;
+////                      source.setBackground(normal);
+
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    if (source == colonne.getChildAt(3)) {
-                        source.setBackground(selectTriangle);
-                    } else {
+                    if (source == colonne.getChildAt(3) && source == colonne.getChildAt(1)) {
                         source.setBackground(select);
+                    } else {
+                        source.setBackground(selectTriangle);
+
                     }
 //                      source.setBackground(select);
                     break;
 
                 case DragEvent.ACTION_DRAG_EXITED:
                 case DragEvent.ACTION_DRAG_ENDED:
-                    if (source == colonne.getChildAt(3)) {
-                        source.setBackground(normalTriangle);
+                    if (source == colonne.getChildAt(3) && source == colonne.getChildAt(1)) {
+                     source.setBackground(normal);
                     } else {
-                        source.setBackground(normal);
+
+                     source.setBackground(normalTriangle);
                     }
                     break;
 //                      source.setBackground(normal);
+
 
                 case DragEvent.ACTION_DROP:
                     // chercher le jeton d'origine
