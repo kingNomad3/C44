@@ -82,6 +82,7 @@ public class GestionBD extends SQLiteOpenHelper {
         Vector<String> v = new Vector<>();
         Cursor resultat = database.rawQuery("SELECT invention FROM inventeur",null);
 
+        //move to next va retourner faut si il y a rien apres, ne va jamais retourner null
         while (resultat.moveToNext()){
             //c'est a 0 car l,ensemble de resultat est slm une colonne sir on avait fait SELEct * il aurai fallu metre plus de paramettre selon la table
             v.add(resultat.getString(0));

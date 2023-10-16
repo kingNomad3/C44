@@ -58,6 +58,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //copie de on create
+
+
+        choix =   gest.retournerInventions();
+        gest = GestionBD.getInstance(getApplicationContext());
+        instance = GestionBD.getInstance(getApplicationContext());
+//        choix = instance.retournerInventions();
+        liste = findViewById(R.id.liste);
+        textReponse = findViewById(R.id.textReponse);
+
+
+
+        //ouvrire la connection avant d'appeler la methode
+        gest.ouvrireConnectionBd();
+
+        //remplir le listeView
+        ArrayAdapter adapteur = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,gest.retournerInventions() );
+
+        liste.setAdapter(adapteur);
+
+        //il ne faut pas fermer la connection avant le on create
+//        gest.fermerConnection();
+        liste.setOnItemClickListener(ec);
+    }
+
+    @Override
     protected void onStop(){
         super.onStop();
         gest.fermerConnection();
@@ -78,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             itemClique.setBackgroundColor(Color.RED);
             liste.getChildAt(2).setBackgroundColor(Color.GREEN);
         }
+        //desactive la selection
         liste.setOnItemClickListener(null);
 
         }
