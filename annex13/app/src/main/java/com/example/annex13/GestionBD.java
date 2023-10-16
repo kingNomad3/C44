@@ -1,5 +1,6 @@
 package com.example.annex13;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +16,7 @@ public class GestionBD extends SQLiteOpenHelper {
     //pour limiter les risques que quelqu'un creer un autre objet de singleton
     //s'il y a en a deux le singleton n'a plus sa raison d'etre
     private GestionBD(Context context) {
-        super(context, "db", null, 1);
+        super(context, "bieres", null, 1);
 
     }
 
@@ -29,7 +30,7 @@ public class GestionBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE bierre(_id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT,microbrasserie TEXT,evaluation INTEGER);");
+        db.execSQL("CREATE TABLE evaluation(_id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT,microbrasserie TEXT,evaluation INTEGER);");
 
 
     }
@@ -39,6 +40,13 @@ public class GestionBD extends SQLiteOpenHelper {
 
     }
 
+    public void ajouterBiere(Evaluation i){
+        ContentValues cv = new ContentValues();
+        cv.put("nom", i.getNom());
+        cv.put("nbEtoiles",i.getEvaluation());
+        cv.put("microbrasserie", i.getMicrobrasserie());
+
+    }
     public void ouvrireConnectionBd(){
         //tjrs mieux de faire cwritetable meme si on ne veut pas ecrire
         database = this.getWritableDatabase();
