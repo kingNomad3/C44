@@ -20,47 +20,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private DatabaseHelper(Context contexte) {
-        super(contexte, "db", null, 1);
+        super(contexte, "97Cartes", null, 1);
         ouvrirBD();
+    }
+
+    // Méthode pour ajouter un score à la base de données
+    public void ajouterScore (Score s, SQLiteDatabase db){
+        ContentValues cv = new ContentValues();
+        cv.put("score", s.getScore());
+        db.insert ("scores", null, cv);
+    }
+
+    // Méthode pour obtenir le score le plus élevé dans la base de données
+    public int classementScores(){
+
+        int plusgrosResultat = 0;
+        Cursor c = database.rawQuery("SELECT MAX(score) FROM scores",null); // on cherche celui ayant le plus grand score
+        c.moveToFirst();
+        plusgrosResultat = c.getInt(0);
+        return plusgrosResultat;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //La méthode onCreate n'est exécutée qu'une seule fois lors de l'installation
 
+        // Création de la table "scores" lors de la première création de la base de données
         db.execSQL("create table scores ( _id INTEGER PRIMARY KEY AUTOINCREMENT, score INTEGER UNIQUE NOT NULL);");
 
+        // Ajout d'un score initial (0) à la table
         ajouterScore(new Score(0), db);
-    }
-
-    public void ajouterScore (Score s, SQLiteDatabase db){
-        ContentValues cv = new ContentValues();
-        cv.put("score", s.getValeur());
-        db.insert ("scores", null, cv);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //la plateforme vérifie si la plateforme avec une bd existe, sinon, oncreate, sinon vérifie la version
-        //db.execSQL("delete from inventeurs"); //changer la table pour scores
+        // Met à jour la base de données en recréant la table scores
         onCreate(db);
     }
 
-
+    // Méthode pour ouvrir la base de données
     public void ouvrirBD(){
         database = this.getWritableDatabase();
     }
 
+    // Méthode pour fermer la base de données
     public void fermerBD(){
         database.close();
-    }
-
-    public int highestScore ()
-    {
-
-        Cursor c = database.rawQuery("SELECT MAX(score) FROM scores", null);
-        c.moveToFirst();
-
-        return c.getInt(0);
     }
 }

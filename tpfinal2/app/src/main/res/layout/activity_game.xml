@@ -11,125 +11,104 @@
     app:layout_gravity="center_vertical|center_horizontal|center"
     tools:context=".GameActivity">
 
-    <GridLayout
-        android:id="@+id/Titles"
+    <LinearLayout
+        android:id="@+id/conteneurEnTete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#30302C"
-        android:columnCount="3"
-        android:orientation="vertical"
-        android:rowCount="3"
-        app:layout_gravity="center_vertical|center_horizontal|center"
-        tools:context=".GameActivity">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView17"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_row="0"
-            android:layout_rowSpan="1"
-            android:layout_rowWeight="1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:text="CARDS LEFT"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:id="@+id/titleCarte"
+            android:layout_width="46dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CARTES RESTANTES" />
 
         <TextView
-            android:id="@+id/cardsLeftCount"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_row="1"
-            android:layout_rowSpan="1"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:text="97"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:id="@+id/titleTemps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TEMPS"
+            android:translationX="1dp" />
 
         <TextView
-            android:id="@+id/textView19"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_row="0"
-            android:layout_rowSpan="1"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:text="TIME"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/timeContainer"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_row="1"
-            android:layout_rowWeight="1"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:text="00:00"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView21"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:text="SCORE"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/scoreContainer"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:text="0"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-    </GridLayout>
+            android:id="@+id/titleScore"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="SCORE" />
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/conteneurChiffresEnTete"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#30302C"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/nbCarteRestante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="97"
+            android:translationX="-20dp" />
+
+        <Chronometer
+            android:id="@+id/simpleChronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:countDown="false" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:translationX="27dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/conteneurButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#f8f2e0">
 
-        <TextView
-            android:id="@+id/textView"
+        <Button
+            android:id="@+id/buttonParametres"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:layout_weight="1"
+            android:layout_weight="1.3"
             android:background="@drawable/textview_border"
             android:gravity="center_vertical|fill_vertical|center"
-            android:text="SETTINGS"
+            android:text="PARAMETRES"
             android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:translationX="-5dp" />
 
-        <TextView
-            android:id="@+id/textView2"
+        <Button
+            android:id="@+id/buttonVide"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/textview_border"
             android:gravity="center_vertical|fill_vertical|center"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:translationX="-8dp" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <Button
+            android:id="@+id/buttonMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -138,199 +117,221 @@
             android:gravity="center_vertical|fill_vertical|center"
             android:text="MENU"
             android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:translationX="-5dp" />
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/ascendingCards"
+        android:id="@+id/conteneurAscendant"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:orientation="horizontal">
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:translationY="15dp">
 
         <LinearLayout
-            android:id="@+id/ascendingContainer1"
-            android:layout_width="0dp"
+            android:id="@+id/conteneurAscendantGauche"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="55dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="27.5dp"
-            android:layout_weight="1"
             android:background="@drawable/card_container_21_40"
             android:orientation="horizontal"
-            android:paddingRight="30dp">
+            android:translationX="30dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/flecheHautAscendantGauche"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal|center"
                 android:layout_weight="1"
+                android:translationX="5dp"
                 app:srcCompat="@drawable/triangle" />
 
             <TextView
-                android:id="@+id/ascendingCardLeft"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal|center"
-                android:layout_marginVertical="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_in_play"
-                android:paddingLeft="5dp"
+                android:id="@+id/deckCardHautGauche"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:gravity="top"
+                android:paddingLeft="10dp"
                 android:shadowColor="@android:color/black"
                 android:shadowDx="5.0"
                 android:shadowDy="5.0"
                 android:shadowRadius="10.0"
                 android:text="0"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:translationY="10dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1" />
 
-                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ascendingContainer2"
-            android:layout_width="0dp"
+            android:id="@+id/conteneurAscendantDroite"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="27.5dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="55dp"
-            android:layout_weight="1"
             android:background="@drawable/card_container_0_20"
             android:orientation="horizontal"
-            android:paddingLeft="30dp">
+            android:translationX="80dp">
+
+            <ImageView
+                android:id="@+id/flecheHautAscendantDroite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                android:layout_weight="1"
+                android:translationX="5dp"
+                app:srcCompat="@drawable/triangle" />
 
             <TextView
-                android:id="@+id/ascendingCardRight"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal|center"
-                android:layout_marginVertical="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_in_play"
-                android:paddingLeft="5dp"
+                android:id="@+id/deckCardHautDroite"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:gravity="top"
+                android:paddingLeft="10dp"
                 android:shadowColor="@android:color/black"
                 android:shadowDx="5.0"
                 android:shadowDy="5.0"
                 android:shadowRadius="10.0"
                 android:text="0"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:translationY="10dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1" />
 
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal|center"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/triangle" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/replayButtonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/replayButton"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical|center_horizontal|center"
-            android:layout_marginLeft="185dp"
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             app:srcCompat="@drawable/replay_button" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/descendingCards"
+        android:id="@+id/conteneurDescendant"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:orientation="horizontal">
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:translationX="-1dp"
+        android:translationY="25dp">
 
         <LinearLayout
-            android:id="@+id/descendingContainer1"
-            android:layout_width="0dp"
+            android:id="@+id/conteneurDescendantGauche"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="55dp"
-            android:layout_marginRight="27.5dp"
-            android:layout_marginBottom="25dp"
-            android:layout_weight="1"
             android:background="@drawable/card_container_81_plus"
             android:orientation="horizontal"
-            android:paddingRight="30dp">
+            android:translationX="30dp">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/flecheBasDescendantGauche"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal|center"
                 android:layout_weight="1"
                 android:rotation="180"
+                android:translationX="5dp"
+                android:translationY="10dp"
                 app:srcCompat="@drawable/triangle" />
 
             <TextView
-                android:id="@+id/descendingCardLeft"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal|center"
-                android:layout_marginVertical="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_in_play"
-                android:paddingLeft="5dp"
+                android:id="@+id/deckCarteBasGauche"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:gravity="top"
+                android:paddingLeft="10dp"
                 android:shadowColor="@android:color/black"
                 android:shadowDx="5.0"
                 android:shadowDy="5.0"
                 android:shadowRadius="10.0"
                 android:text="98"
-                android:textSize="20sp" />
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:translationY="10dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/descendingContainer2"
-            android:layout_width="0dp"
+            android:id="@+id/conteneurDescendantDroite"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="27.5dp"
-            android:layout_marginRight="55dp"
-            android:layout_marginBottom="25dp"
-            android:layout_weight="1"
             android:background="@drawable/card_container_0_20"
             android:orientation="horizontal"
-            android:paddingLeft="30dp">
-
-            <TextView
-                android:id="@+id/descendingCardRight"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal|center"
-                android:layout_marginVertical="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_in_play"
-                android:paddingLeft="5dp"
-                android:shadowColor="@android:color/black"
-                android:shadowDx="5.0"
-                android:shadowDy="5.0"
-                android:shadowRadius="10.0"
-                android:text="98"
-                android:textSize="20sp" />
+            android:translationX="80dp">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/flecheBasDescendantDroite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal|center"
                 android:layout_weight="1"
                 android:rotation="180"
+                android:translationX="5dp"
+                android:translationY="10dp"
                 app:srcCompat="@drawable/triangle" />
+
+            <TextView
+                android:id="@+id/deckCarteBasDroite"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:gravity="top"
+                android:paddingLeft="10dp"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="5.0"
+                android:shadowDy="5.0"
+                android:shadowRadius="10.0"
+                android:text="98"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:translationY="10dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1" />
         </LinearLayout>
     </LinearLayout>
 
     <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/Cards"
+        android:id="@+id/deckCards"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:background="@drawable/textview_border"
+        android:translationY="50dp"
         app:columnCount="4"
         app:rowCount="2">
-
 
         <TextView
             android:id="@+id/card1"
@@ -348,7 +349,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -370,7 +371,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -392,7 +393,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -414,7 +415,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -435,6 +436,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -455,7 +457,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -476,7 +478,7 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
@@ -497,11 +499,12 @@
             android:shadowDy="5.0"
             android:shadowRadius="10.0"
             android:text="0"
-
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
+
     </androidx.gridlayout.widget.GridLayout>
 
 </LinearLayout>

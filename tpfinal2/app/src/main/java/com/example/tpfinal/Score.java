@@ -1,16 +1,19 @@
 package com.example.tpfinal;
 
 public class Score {
-    private int valeur;
-    public Score(int valeur) {
-        this.valeur = valeur;
+    // Classe créée pour faciliter l'entrée de scores dans la base de données
+
+    private int score; // Variable pour stocker le score
+
+    public Score(int score) {
+        this.score = score;
     }
 
-    public int getValeur() {
-        return valeur;
+    public int getScore() {
+        return score;
     }
 
-    public void setValeur(int valeur) {
-        this.valeur = valeur;
+    public void setScore(int score) {
+        this.score = score;
     }
 }
