@@ -3,21 +3,20 @@ package com.example.tpfinal;
 // Définition d'une classe appelée Carte
 public class Carte {
 
-    // Variable membre privée pour stocker le "chiffre" (numéro) de la carte
-    private int chiffre;
+    // Variable membre privée pour stocker le numéro de la carte
+    private int numeroDeCarte;
 
-    // Constructeur pour initialiser la carte avec un "chiffre" (numéro)
-    public Carte(int chiffre) {
-        this.chiffre = chiffre;
+    // Constructeur pour initialiser la carte avec un numéro
+    public Carte(int numeroDeCarte) {
+        this.numeroDeCarte = numeroDeCarte;
     }
 
-    // Méthode getter pour récupérer le "chiffre" (numéro) de la carte
-    public int getChiffre() {
-        return chiffre;
+    // Méthode getter pour récupérer le numéro de la carte
+    public int getNumeroDeCarte() {
+        return numeroDeCarte;
     }
 
-    // Méthode setter pour définir le "chiffre" (numéro) de la carte
-    public void setChiffre(int chiffre) {
-        this.chiffre = chiffre;
+    public void setNumeroDeCarte(int numeroDeCarte) {
+        this.numeroDeCarte = numeroDeCarte;
     }
 }

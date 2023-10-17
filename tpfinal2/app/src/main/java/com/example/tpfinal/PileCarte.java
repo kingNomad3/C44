@@ -21,10 +21,9 @@ public class PileCarte {
     }
 
     public int tirerCarte() {
-
         // Méthode permettant de tirer une carte (la dernière sur la pile de cartes) après que cette pile soit mélangée
         // J'ai utilisé listeCartes.size()-1 comme alternative à pop, car j'utilise un vecteur et non un Stack
-        return listeCartes.remove(listeCartes.size()-1).getChiffre();
+        return listeCartes.remove(listeCartes.size()-1).getNumeroDeCarte();
     }
 
     public int tailleListeCartes() {

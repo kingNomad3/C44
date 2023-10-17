@@ -20,10 +20,8 @@ import java.util.Stack;
 public class GameActivity extends AppCompatActivity {
 
     // Déclarations des éléments de l'interface utilisateur
-    LinearLayout parent, conteneurChiffreEntête,
-            conteneurAscendant, conteneurAscendantGauche,
-            conteneurAscendantDroite, conteneurDescendant,
-            conteneurDescendantGauche, conteneurDescedantDroite;
+    LinearLayout parent, conteneurChiffreEntête,conteneurAscendant, conteneurAscendantGauche, conteneurAscendantDroite,
+            conteneurDescendant, conteneurDescendantGauche, conteneurDescedantDroite;
     GridLayout deckCartes;
     Chronometer chronometer;
     EcouteurCarte ecouteurCarte;
@@ -81,7 +79,7 @@ public class GameActivity extends AppCompatActivity {
         // Remplissage des cartes du jeu avec des valeurs depuis la pile de cartes
         for (int i = 0; i < deckCartes.getChildCount(); i++) {
             TextView carte = (TextView) deckCartes.getChildAt(i);
-
+            changeCardColor(deckCartes,i);
             // Définir le texte de la carte avec la valeur de la carte tirée de la pile
             carte.setText(String.valueOf(pileCarte.tirerCarte()));
 
@@ -119,8 +117,10 @@ public class GameActivity extends AppCompatActivity {
         public void onClick(View v) {
             // Si l'élément cliqué est le bouton "menu", démarre l'activité MainActivity
             if (v.equals(menu))
-                startActivity(new Intent(GameActivity.this, com.example.tpfinal.MainActivity.class));
+                startActivity(new Intent(GameActivity.this, MenuActivity.class));
+
         }
+
 
         // Gestion des événements de glisser-déposer sur un élément de l'interface
         @Override
@@ -129,6 +129,7 @@ public class GameActivity extends AppCompatActivity {
                 // Lorsque le glisser-déposer commence, si le texte de la carte est égal à chiffreSelectionne, efface le texte de la carte
                 if (((TextView) v).getText() == chiffreSelectionne)
                     ((TextView) v).setText("");
+                //rajouter   java.lang.NumberFormatException: For input string: "" (GameActivity.java:168)
             } else if (event.getAction() == DragEvent.ACTION_DRAG_ENDED || event.getAction() == DragEvent.ACTION_DROP) {
                 // Lorsque le glisser-déposer se termine, si chiffreSelectionne n'est pas null, met le texte de la carte sélectionnée à chiffreSelectionne
                 if (chiffreSelectionne != null) {
@@ -219,10 +220,9 @@ public class GameActivity extends AppCompatActivity {
                     // Vérifie la fin de la partie ou si le deck de cartes est vide
                     if (verifierFindePartie() || pileCarte.tailleListeCartes() == 0 && partie.deckVide(deckCartes)) {
                         finish();
-                        Intent intent = new Intent(GameActivity.this, MainActivity.class);
-
-                        intent.putExtra("SCORE", textscore.getText());
-                        startActivity(intent);
+                        Intent i = new Intent(GameActivity.this,GameOverActivity.class);
+                        i.putExtra("SCORE", textscore.getText());
+                        startActivity(i);
                     }
                 }
                 carteSelectionner = null;
@@ -233,26 +233,26 @@ public class GameActivity extends AppCompatActivity {
     }
 
     // Méthode pour changer la couleur de la carte en fonction de sa valeur
-    private void changeCardColor(TextView cardTextView, int cardValue) {
-        if (cardValue == 98 || cardValue == 0) {
-            cardTextView.setBackgroundResource(R.drawable.card_in_play);
-        } else if (cardValue < 21) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_0_20);
-        } else if (cardValue > 20 && cardValue < 41) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_21_40);
-        } else if (cardValue > 40 && cardValue < 61) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_41_60);
-        } else if (cardValue > 60 && cardValue < 80) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_61_80);
-        } else {
-            cardTextView.setBackgroundResource(R.drawable.card_container_81_plus);
-        }
-    }
+            private void changeCardColor(GridLayout cardTextView, int cardValue) {
+                if (cardValue == 98 || cardValue == 0) {
+                    cardTextView.setBackgroundResource(R.drawable.card_in_play);
+                } else if (cardValue < 21) {
+                    cardTextView.setBackgroundResource(R.drawable.card_container_0_20);
+                } else if (cardValue > 20 && cardValue < 41) {
+                    cardTextView.setBackgroundResource(R.drawable.card_container_21_40);
+                } else if (cardValue > 40 && cardValue < 61) {
+                    cardTextView.setBackgroundResource(R.drawable.card_container_41_60);
+                } else if (cardValue > 60 && cardValue < 80) {
+                    cardTextView.setBackgroundResource(R.drawable.card_container_61_80);
+                } else {
+                    cardTextView.setBackgroundResource(R.drawable.card_container_81_plus);
+                }
+            }
 
     // Méthode pour vérifier la fin de la partie
     public boolean verifierFindePartie() {
-        int valeurCartePile; // Valeur de la carte dans la pile (du haut ou du bas)
-        int valeurCarteMain; // Valeur de la carte en main (du deck principal)
+        int valeurCartePile; // Valeur de la carte dans la pile
+        int valeurCarteMain; // Valeur de la carte en main
         String valeurCarteMainString; // Valeur de la carte en main sous forme de chaîne
 
         // Vérifie les piles de cartes du haut (ascendant)
