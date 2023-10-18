@@ -23,6 +23,7 @@ public class GameActivity extends AppCompatActivity {
     LinearLayout parent, conteneurChiffreEntête,conteneurAscendant, conteneurAscendantGauche, conteneurAscendantDroite,
             conteneurDescendant, conteneurDescendantGauche, conteneurDescedantDroite;
     GridLayout deckCartes;
+
     Chronometer chronometer;
     EcouteurCarte ecouteurCarte;
     EcouteurDeck ecouteurDeck;
@@ -77,9 +78,11 @@ public class GameActivity extends AppCompatActivity {
         menu.setOnClickListener(ecouteurCarte);
 
         // Remplissage des cartes du jeu avec des valeurs depuis la pile de cartes
+
         for (int i = 0; i < deckCartes.getChildCount(); i++) {
             TextView carte = (TextView) deckCartes.getChildAt(i);
-            changeCardColor(deckCartes,i);
+            int carteNb = pileCarte.retirerCarte();
+            changeCardColor(carte,carteNb);
             // Définir le texte de la carte avec la valeur de la carte tirée de la pile
             carte.setText(String.valueOf(pileCarte.tirerCarte()));
 
@@ -116,8 +119,8 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // Si l'élément cliqué est le bouton "menu", démarre l'activité MainActivity
-            if (v.equals(menu))
-                startActivity(new Intent(GameActivity.this, MenuActivity.class));
+//            if (v.equals(menu))
+//                startActivity(new Intent(GameActivity.this, MenuActivity.class));
 
         }
 
@@ -233,21 +236,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     // Méthode pour changer la couleur de la carte en fonction de sa valeur
-            private void changeCardColor(GridLayout cardTextView, int cardValue) {
-                if (cardValue == 98 || cardValue == 0) {
-                    cardTextView.setBackgroundResource(R.drawable.card_in_play);
-                } else if (cardValue < 21) {
-                    cardTextView.setBackgroundResource(R.drawable.card_container_0_20);
-                } else if (cardValue > 20 && cardValue < 41) {
-                    cardTextView.setBackgroundResource(R.drawable.card_container_21_40);
-                } else if (cardValue > 40 && cardValue < 61) {
-                    cardTextView.setBackgroundResource(R.drawable.card_container_41_60);
-                } else if (cardValue > 60 && cardValue < 80) {
-                    cardTextView.setBackgroundResource(R.drawable.card_container_61_80);
-                } else {
-                    cardTextView.setBackgroundResource(R.drawable.card_container_81_plus);
-                }
-            }
+    private void changeCardColor(TextView cardTextView, int cardValue) {
+        if (cardValue == 98 || cardValue == 0) {
+            cardTextView.setBackgroundResource(R.drawable.card_in_play);
+        } else if (cardValue < 21) {
+            cardTextView.setBackgroundResource(R.drawable.card_container_0_20);
+        } else if (cardValue > 20 && cardValue < 41) {
+            cardTextView.setBackgroundResource(R.drawable.card_container_21_40);
+        } else if (cardValue > 40 && cardValue < 61) {
+            cardTextView.setBackgroundResource(R.drawable.card_container_41_60);
+        } else if (cardValue > 60 && cardValue < 80) {
+            cardTextView.setBackgroundResource(R.drawable.card_container_61_80);
+        } else {
+            cardTextView.setBackgroundResource(R.drawable.card_container_81_plus);
+        }
+    }
 
     // Méthode pour vérifier la fin de la partie
     public boolean verifierFindePartie() {
