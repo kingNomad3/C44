@@ -2,6 +2,8 @@ package com.example.tpfinal;
 
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,27 +12,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MenuAlert extends AppCompatActivity {
+public class MenuAlert extends Dialog {
 
-    Button menu;
+    Button RetourJeu, QuitterJeu;
 
+    public MenuAlert(@NonNull Context context) {
+        super(context);
 
-    @SuppressLint("MissingInflatedId")
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        menu = findViewById(R.id.buttonMenu);
+        setContentView(R.layout.menu_dialogue);
+        RetourJeu = findViewById(R.id.RetourJeu);
+        QuitterJeu = findViewById(R.id.quitterJeu);
 
         Ecouteur ec = new Ecouteur();
 
-        menu.setOnClickListener(ec);
+        RetourJeu.setOnClickListener(ec);
+        QuitterJeu.setOnClickListener(ec);
 
     }
+
 
     private class Ecouteur implements View.OnClickListener {
 
@@ -38,27 +46,28 @@ public class MenuAlert extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-          if (v == menu){
+            Button temp = (Button) v;
+            String textButton = temp.getText().toString();
+
+            if(textButton.equals("Continuer la partie")){
+                System.out.println("test");
+            }
+
+
+            if (v == QuitterJeu){
 //              showMenuAlert();
+
+          } else if (v ==QuitterJeu) {
+              dismiss();
+
           }
 
         }
 
+        private void showMenuAlert() {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
 
-//        private void showMenuAlert() {
-////            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//            builder.setTitle("Menu");
-//
-//
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
-//            builder.setNegativeButton("Annuler", null);
-//            builder.show();
-//        }
+        }
     }
 }

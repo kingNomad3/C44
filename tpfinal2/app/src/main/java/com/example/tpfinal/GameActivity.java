@@ -112,15 +112,17 @@ public class GameActivity extends AppCompatActivity {
 
 
     // Classe EcouteurCarte : Gère les interactions avec les cartes du jeu
-
     private class EcouteurCarte implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
 
         // Gestion du clic sur un élément de l'interface
         @Override
         public void onClick(View v) {
-            // Si l'élément cliqué est le bouton "menu", démarre l'activité MainActivity
-//            if (v.equals(menu))
-//                startActivity(new Intent(GameActivity.this, MenuActivity.class));
+             //Si l'élément cliqué est le bouton "menu", démarre l'activité MainActivity
+            if (v.equals(menu)){
+                MenuAlert ma = new MenuAlert(GameActivity.this);
+                ma.show();
+            }
+
 
         }
 
