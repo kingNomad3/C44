@@ -2,6 +2,7 @@ package com.example.annex13;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MeilleurActivity extends AppCompatActivity {
 //        deuxieme = findViewById(R.id.deuxieme);
 //        troisieme = findViewById(R.id.troisieme);
 
+        back.setOnClickListener(ec);
 
     }
 
@@ -69,6 +71,8 @@ public class MeilleurActivity extends AppCompatActivity {
 //
 //        }
 
+
+
         listeBiere.setAdapter(adapteur);
 
     }
@@ -77,7 +81,10 @@ public class MeilleurActivity extends AppCompatActivity {
     private class Ecouteur implements  AdapterView.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (v == back){
+                Intent i = new Intent(MeilleurActivity.this,MainActivity.class);
+                startActivity(i);
+            }
         }
     }
 }
