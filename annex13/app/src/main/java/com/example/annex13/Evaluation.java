@@ -6,11 +6,11 @@ public class Evaluation {
 
     private String nom;
     private String microbrasserie;
-    private byte evaluation;
+    private double evaluation;
 
 
-    public Evaluation(String nom, String microbrasserie, byte evaluation) throws Exception {
-        if (this.nom.trim().length()<= 0)
+    public Evaluation(String nom, String microbrasserie, double evaluation) throws Exception {
+        if (nom.trim().length()<= 0)
             throw new Exception("ne peut pas etre vide");
         this.nom = nom;
         this.microbrasserie = microbrasserie;
@@ -25,7 +25,7 @@ public class Evaluation {
         return microbrasserie;
     }
 
-    public byte getEvaluation() {
+    public double getEvaluation() {
         return evaluation;
     }
 

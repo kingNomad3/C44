@@ -2,6 +2,7 @@ package com.example.annex13;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,9 +14,6 @@ public class MainActivity extends AppCompatActivity {
     Button MeilleurBiere;
 
     Ecouteur ec = new Ecouteur();
-
-
-
 
 
     @Override
@@ -36,12 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private class Ecouteur implements AdapterView.OnClickListener{
 
 
+
         @Override
         public void onClick(View v) {
             if (v == Evaluation){
-                setContentView(R.layout.activity_ajouter);
+                Intent i = new Intent(MainActivity.this,AjouterActivity.class);
+                startActivity(i);
             }else if (v == MeilleurBiere){
-                setContentView(R.layout.activity_meilleur);
+                Intent i = new Intent(MainActivity.this,MeilleurActivity.class);
+                startActivity(i);
             }
         }
     }

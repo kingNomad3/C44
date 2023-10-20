@@ -16,7 +16,7 @@ public class GestionBD extends SQLiteOpenHelper {
     //pour limiter les risques que quelqu'un creer un autre objet de singleton
     //s'il y a en a deux le singleton n'a plus sa raison d'etre
     private GestionBD(Context context) {
-        super(context, "bieres", null, 1);
+        super(context, "biere", null, 1);
 
     }
 
@@ -30,9 +30,7 @@ public class GestionBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE evaluation(_id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT,microbrasserie TEXT,evaluation INTEGER);");
-
-
+        db.execSQL("CREATE TABLE biere(_id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT,microbrasserie TEXT,nbEtoiles REAL);");
     }
 
     @Override
@@ -46,6 +44,7 @@ public class GestionBD extends SQLiteOpenHelper {
         cv.put("nbEtoiles",i.getEvaluation());
         cv.put("microbrasserie", i.getMicrobrasserie());
 
+        database.insert("biere", null, cv);
     }
     public void ouvrireConnectionBd(){
         //tjrs mieux de faire cwritetable meme si on ne veut pas ecrire
@@ -58,7 +57,8 @@ public class GestionBD extends SQLiteOpenHelper {
 
     public Vector<String> retournerMeilleur(){
         Vector<String> v = new Vector<>();
-        Cursor resultat = database.rawQuery("SELECT nom,microbrasserie  FROM bierre WHERE evaluation > 5 ",null);
+        Cursor resultat = database.rawQuery("SELECT nom,microbrasserie, nbEtoiles  FROM biere ORDER BY nbEtoiles DESC LIMIT 3 ",null);
+//        resultat = query("evaluation", new String[]{"nom"}, null,null,null,null,"evaluation DESC",3);
 
         //move to next va retourner faut si il y a rien apres, ne va jamais retourner null
         while (resultat.moveToNext()){
