@@ -13,10 +13,9 @@ import java.util.Vector;
 public class GestionBD extends SQLiteOpenHelper {
 
     //instance unique de la classe Singleton GestionBD
+    //dans ce cas Gestion bd peut etre remplacer par singleton instance
     private static GestionBD instance;
     private SQLiteDatabase database;
-
-
     // méthode de base pour un Singleton
     public static GestionBD getInstance(Context contexte) {
         if (instance == null)

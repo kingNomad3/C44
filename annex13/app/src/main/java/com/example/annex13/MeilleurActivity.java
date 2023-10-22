@@ -34,7 +34,6 @@ public class MeilleurActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meilleur);
 
         back = findViewById(R.id.backButon);
-
         listeBiere = findViewById(R.id.listeBiere);
 
 
