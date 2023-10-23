@@ -58,13 +58,35 @@ public class GestionBD extends SQLiteOpenHelper {
     public Vector<String> retournerMeilleur(){
         Vector<String> v = new Vector<>();
         Cursor resultat = database.rawQuery("SELECT nom,microbrasserie, nbEtoiles  FROM biere ORDER BY nbEtoiles DESC LIMIT 3 ",null);
-//        resultat = query("evaluation", new String[]{"nom"}, null,null,null,null,"evaluation DESC",3);
+
+
+
 
         //move to next va retourner faut si il y a rien apres, ne va jamais retourner null
         while (resultat.moveToNext()){
             //c'est a 0 car l,ensemble de resultat est slm une colonne sir on avait fait SELEct * il aurai fallu metre plus de paramettre selon la table
             v.add(resultat.getString(0));
         }
+
+        //example
+        String[] projection = {
+                "nom",
+                "microbrasserie",
+                "nbEtoiles"
+        };
+        // Sort order
+        String sortOrder = "nbEtoiles DESC";
+        // Query the database
+        Cursor resultat2 = database.query(
+                "biere",      // The table to query
+                projection,   // The columns to return
+                null,         // The columns for the WHERE clause
+                null,         // The values for the WHERE clause
+                null,         // Group by
+                null,         // Having
+                sortOrder,    // Sort order dans une variable string ou direct en string
+                "3"           // Limit
+        );
 
 
         return v;

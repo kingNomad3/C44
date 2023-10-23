@@ -11,11 +11,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     public static DatabaseHelper getInstance(Context contexte) {
-
         if (instance == null){
             instance = new DatabaseHelper(contexte.getApplicationContext());
         }
-
         return instance;
     }
 
@@ -33,7 +31,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Méthode pour obtenir le score le plus élevé dans la base de données
     public int classementScores(){
-
         int plusgrosResultat = 0;
         Cursor c = database.rawQuery("SELECT MAX(score) FROM scores",null); // on cherche celui ayant le plus grand score
         c.moveToFirst();
@@ -43,7 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         // Création de la table "scores" lors de la première création de la base de données
         db.execSQL("create table scores ( _id INTEGER PRIMARY KEY AUTOINCREMENT, score INTEGER UNIQUE NOT NULL);");
 

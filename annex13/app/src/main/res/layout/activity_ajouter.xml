@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".AjouterActivity">
 
+    <!-- Input Fields Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -49,11 +49,10 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
-
         </LinearLayout>
-
     </LinearLayout>
 
+    <!-- Rating and Button Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -65,7 +64,10 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:numStars="5" />
+            android:numStars="5"
+        android:stepSize="1.0"
+        android:rating="5"
+        />
 
         <Button
             android:id="@+id/enregistrer"

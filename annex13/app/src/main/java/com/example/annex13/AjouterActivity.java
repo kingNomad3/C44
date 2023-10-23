@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
@@ -40,11 +41,10 @@ public class AjouterActivity extends AppCompatActivity {
         nomMicrobrasserie = findViewById(R.id.microbrasserie);
 
 
-         ec = new Ecouteur();
+        ec = new Ecouteur();
 
         ajouter.setOnClickListener(ec);
-//        ratingBar.setOnRatingBarChangeListener(ec);
-
+        ratingBar.setRating(5);
 
 
     }
@@ -62,20 +62,23 @@ public class AjouterActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-                ratingEnDouble = ratingBar.getRating();
-                System.out.println(ratingEnDouble);
-                nombiereTemps= nombiere.getText().toString();
-                nomMicrobrasserieTemps = nomMicrobrasserie.getText().toString();
+            ratingEnDouble = ratingBar.getRating();
+            System.out.println(ratingEnDouble);
+            nombiereTemps = nombiere.getText().toString();
+            nomMicrobrasserieTemps = nomMicrobrasserie.getText().toString();
 
+            if (nombiereTemps.isEmpty() || nomMicrobrasserieTemps.isEmpty()) {
+                Toast.makeText(AjouterActivity.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
+            } else {
                 try {
-                    Evaluation  eval = new Evaluation(nombiereTemps,nomMicrobrasserieTemps, ratingEnDouble);
+                    Evaluation eval = new Evaluation(nombiereTemps, nomMicrobrasserieTemps, ratingEnDouble);
                     bd.ajouterBiere(eval);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    Toast.makeText(AjouterActivity.this, "Error adding evaluation!", Toast.LENGTH_SHORT).show();
                 }
-
                 bd.fermerConnection();
                 finish();
+            }
         }
     }
 }

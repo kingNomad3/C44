@@ -2,17 +2,13 @@ package com.example.revisionexamfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 
 import java.util.Vector;
 
@@ -47,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         ec = new Ecouteur();  // Initialize the listener
         recherche.setOnClickListener(ec);
-
-
     }
 
     @Override

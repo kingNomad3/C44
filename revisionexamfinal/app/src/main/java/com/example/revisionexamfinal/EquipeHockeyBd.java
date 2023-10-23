@@ -96,7 +96,8 @@ public class EquipeHockeyBd extends SQLiteOpenHelper {
     }
 
     public String getDivisionParArena(String arena) {
-        Cursor resultat = database.rawQuery("SELECT division FROM EquipesLHJMQ WHERE arena=?", new String[]{arena});
+        String[] args = {arena};
+        Cursor resultat = database.rawQuery("SELECT division FROM EquipesLHJMQ WHERE arena=?", args);
         if (resultat.moveToFirst()) {
             String division = resultat.getString(0);
             resultat.close();
@@ -105,19 +106,6 @@ public class EquipeHockeyBd extends SQLiteOpenHelper {
         return null;
     }
 
-    public Vector<String> retournerNomEquipe(){
-        Vector<String> v = new Vector<>();
-        Cursor resultat = database.rawQuery("SELECT nom FROM EquipesLHJMQ",null);
-
-        //move to next va retourner faut si il y a rien apres, ne va jamais retourner null
-        while (resultat.moveToNext()){
-            //c'est a 0 car l,ensemble de resultat est slm une colonne sir on avait fait SELEct * il aurai fallu metre plus de paramettre selon la table
-            v.add(resultat.getString(0));
-        }
-
-
-        return v;
-    }
 
     public String getNomEquipeParArena(String arena) {
         Cursor resultat = database.rawQuery("SELECT nom FROM EquipesLHJMQ WHERE arena LIKE ?", new String[]{arena});

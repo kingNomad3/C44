@@ -8,12 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class GameOverActivity extends AppCompatActivity {
-
     Button rejouer; // Bouton pour rejouer
     TextView scoreFinal; // TextView pour afficher le score final
     Ecouteur ec; // Écouteur pour gérer les clics sur le bouton
     DatabaseHelper db; // Base de données SQLite pour gérer les scores
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,29 +23,27 @@ public class GameOverActivity extends AppCompatActivity {
         ec = new Ecouteur();
         db = DatabaseHelper.getInstance(this);
 
-        // Récupération du score passé depuis l'activité précédente
-        String scoreString = getIntent().getExtras().getString("SCORE");
-        Score score = new Score(Integer.parseInt(scoreString));
+        // Récupération du score passé depuis l'activité précédente stocker dans la bd
+        String scoreEnString = getIntent().getExtras().getString("SCORE");
+        Score score = new Score(Integer.parseInt(scoreEnString));
 
         // Ajout du score à la base de données
         db.ajouterScore(score, db.getWritableDatabase());
 
         // Affichage du score final
-        scoreFinal.setText("Votre score : " + scoreString);
+        scoreFinal.setText("Votre score : " + scoreEnString);
 
-        // Configuration du clic sur le bouton "Rejouer"
+        // Ecouteur du clic sur le bouton "Rejouer"
         rejouer.setOnClickListener(ec);
     }
-
     // Classe interne pour gérer les clics sur le bouton "Rejouer"
     private class Ecouteur implements View.OnClickListener{
-
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.buttonRejouer: {
-                    // Redirection vers l'activité de jeu (GameActivity) pour rejouer
-                    Intent i = new Intent(GameOverActivity.this, GameActivity.class);
+                    // Redirection vers l'activité de jeu (Mainactivity) pour rejouer
+                    Intent i = new Intent(GameOverActivity.this, MainActivity.class);
                     startActivity(i);
                 }
             }
