@@ -14,7 +14,6 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -25,8 +24,10 @@ public class GameActivity extends AppCompatActivity {
     Chronometer chronometer;
     EcouteurCarte ecouteurCarte;
     EcouteurDeck ecouteurDeck;
-    ImageView replayButton;
+    ImageView replayButton; //ne fonctionne pas
     TextView nbCartesRestantes, textScore, carteSelectionner, menu;
+
+    //Ici, j'ai utilisé un Integer au lien d'un int car j'aimerais contenir une valeur null lorsque la carte est vide
     Integer[] idDeckHaut = {R.id.deckCardHautGauche, R.id.deckCardHautDroite};
     Integer[] idDeckBas = {R.id.deckCarteBasGauche, R.id.deckCarteBasDroite};
 
@@ -152,46 +153,53 @@ public class GameActivity extends AppCompatActivity {
     private class EcouteurDeck implements View.OnDragListener {
         @Override
         public boolean onDrag(View v, DragEvent event) {
+            // Si l'action de l'événement de glisser-déposer est un lâcher
             if (event.getAction() == DragEvent.ACTION_DROP) {
                 LinearLayout conteneur = (LinearLayout) v;
-                boolean placementEffectue = false;
-                TextView carteConteneur = null;
+                boolean placementEffectue = false; // Indique si le placement de la carte est valide
+                TextView carteConteneur = null; // La carte actuellement dans le conteneur
                 TextView endroitDeposeCarte;
 
+                // Vérifie si la vue sur laquelle on lâche est l'une des vues attendues
                 if (v.getId() == conteneurHautGauche.getId() || v.getId() == conteneurBasGauche.getId() ||
                         v.getId() == conteneurHautDroite.getId() || v.getId() == conteneurBasDroite.getId()) {
                     carteConteneur = (TextView) conteneur.getChildAt(1);
                 }
-                //empeche le code de crash, si une carte vide est placer sur une autre carte
+
+                // Essaie de parser les cartes, si une exception est lancée (carte vide par exemple), elle est gérée
                 try {
                     int valeurCarte = Integer.parseInt(chiffreSelectionne);
                     int carteCouranteValeur = Integer.parseInt((String) carteConteneur.getText());
+
                     ChangementCouleur(carteConteneur, valeurCarte);
 
+                    // Vérifie le placement en fonction de la position du conteneur
                     if ((((LinearLayout) conteneur.getParent()).getId() == conteneurHaut.getId())) {
-                        if (partie.verifierPlacement("ascendant", valeurCarte, carteCouranteValeur))
+                        if (partie.verifierPlace("ascendant", valeurCarte, carteCouranteValeur))
                             placementEffectue = true;
                     } else if ((((LinearLayout) conteneur.getParent()).getId() == conteneurBas.getId())) {
-                        if (partie.verifierPlacement("descendant", valeurCarte, carteCouranteValeur))
+                        if (partie.verifierPlace("descendant", valeurCarte, carteCouranteValeur))
                             placementEffectue = true;
                     }
 
+                    // Si le placement est valide
                     if (placementEffectue) {
-                        partie.setDernierCarteSurlapile(carteConteneur.getId());
-                        partie.setDernierCarteSurlapileValeur((String) carteConteneur.getText());
+                        partie.setDernierCarteSurLaPile(carteConteneur.getId());
+                        partie.setValeurDernierCarteSurLaPile((String) carteConteneur.getText());
                         endroitDeposeCarte = carteConteneur;
-                        partie.getCarteEnleverValeur().add(chiffreSelectionne);
-                        partie.getCarteEnleverEmplacement().add(carteSelectionner.getId());
-                        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getCarteEnleverValeur().size()));
+                        partie.getValeurCarteEnlever().add(chiffreSelectionne);
+                        partie.getPlaceCarteEnlever().add(carteSelectionner.getId());
+                        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
-                        partie.calculerScore(score, valeurCarte, carteCouranteValeur);
+                        partie.calculScore(score, valeurCarte, carteCouranteValeur);
                         textScore.setText(String.valueOf(score.getScore()));
 
-                        if (partie.getCarteEnleverValeur().size() == 2) {
+                        // Vérifie si 2 cartes ont été retirées et met à jour le deck en conséquence
+                        if (partie.getValeurCarteEnlever().size() == 2) {
                             if (deck.tailleListeCartes() > 0) {
                                 for (int i = 0; i < 2; i++) {
-                                    TextView nouvelleCarte = findViewById(partie.getCarteEnleverEmplacement().remove(partie.getCarteEnleverEmplacement().size() - 1));
-                                    partie.getCarteEnleverValeur().remove(partie.getCarteEnleverValeur().size() - 1);
+                                    TextView nouvelleCarte = findViewById(partie.getPlaceCarteEnlever().remove(partie.getPlaceCarteEnlever().size() - 1));
+                                    partie.getValeurCarteEnlever().remove(partie.getValeurCarteEnlever().size() - 1);
 
                                     int nouvelleValeurCarte = deck.tirerCarte();
                                     nouvelleCarte.setText(String.valueOf(nouvelleValeurCarte));
@@ -199,14 +207,15 @@ public class GameActivity extends AppCompatActivity {
                                 }
                             }
                         }
-
                     } else {
                         endroitDeposeCarte = carteSelectionner;
                     }
+
                     endroitDeposeCarte.setText(chiffreSelectionne);
 
+                    // Vérifie la fin de partie ou si le deck est vide
                     if (placementEffectue) {
-                        if (verifierFindePartie() || deck.tailleListeCartes() == 0 && partie.deckVide(deckGrid)) {
+                        if (verifierFindePartie() || deck.tailleListeCartes() == 0 && partie.isVide(deckGrid)) {
                             finish();
                             Intent i = new Intent(GameActivity.this, GameOverActivity.class);
                             i.putExtra("SCORE", textScore.getText());
@@ -223,6 +232,7 @@ public class GameActivity extends AppCompatActivity {
             return true;
         }
     }
+
 
     // Méthode pour changer la couleur de la carte en fonction de sa valeur
     private void ChangementCouleur(TextView cardTextView, int cardValue) {

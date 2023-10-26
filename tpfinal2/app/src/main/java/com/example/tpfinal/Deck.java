@@ -13,6 +13,7 @@ public class Deck {
     }
     public void melangerCartes() {
         // Méthode permettant de mélanger les cartes dans le jeu
+        //https://www.geeksforgeeks.org/collections-shuffle-method-in-java-with-examples/
         Collections.shuffle(listeCartes);
     }
     public int tirerCarte() {

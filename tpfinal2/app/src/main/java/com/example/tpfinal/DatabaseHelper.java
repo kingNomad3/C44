@@ -19,11 +19,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private DatabaseHelper(Context contexte) {
         super(contexte, "97Cartes", null, 1);
-        ouvrirBD();
+        ouvrirConnection();
     }
 
     // Méthode pour ajouter un score à la base de données
-    public void ajouterScore (Score s, SQLiteDatabase db){
+    public void ajouterScore(Score s, SQLiteDatabase db){
         ContentValues cv = new ContentValues();
         cv.put("score", s.getScore());
         db.insert ("scores", null, cv);
@@ -31,11 +31,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Méthode pour obtenir le score le plus élevé dans la base de données
     public int classementScores(){
-        int plusgrosResultat = 0;
-        Cursor c = database.rawQuery("SELECT MAX(score) FROM scores",null); // on cherche celui ayant le plus grand score
+        int Resultat = 0;
+        Cursor c = database.rawQuery("SELECT MAX(score) FROM scores",null); // on cherche celui qui le plus grand score
         c.moveToFirst();
-        plusgrosResultat = c.getInt(0);
-        return plusgrosResultat;
+        Resultat = c.getInt(0);
+        return Resultat;
     }
 
     @Override
@@ -54,12 +54,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Méthode pour ouvrir la base de données
-    public void ouvrirBD(){
+    public void ouvrirConnection(){
         database = this.getWritableDatabase();
     }
 
     // Méthode pour fermer la base de données
-    public void fermerBD(){
+    public void fermerConnection(){
         database.close();
     }
 }

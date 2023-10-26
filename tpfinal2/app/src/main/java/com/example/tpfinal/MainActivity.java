@@ -42,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // Si le joueur clique sur "Commencer Partie", il sera redirigé vers l'activité de jeu (GameActivity)
-            switch (v.getId()) {
-                case R.id.playButton: {
-                    Intent i = new Intent(MainActivity.this, GameActivity.class);
-                    startActivity(i);
-                }
+            if (v == commencerPartie) {
+                Intent i = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(i);
+
             }
         }
     }

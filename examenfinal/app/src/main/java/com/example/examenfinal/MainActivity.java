@@ -21,7 +21,7 @@ import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView questions,bleu,rouge,noir,jaune;
+    TextView questions,bleu,rouge,noir,jaune,blanc;
     LinearLayout conteneurG;
     LinearLayout conteneurC;
     LinearLayout conteneurD;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         rouge = findViewById(R.id.rouge);
         noir = findViewById(R.id.noir);
         jaune = findViewById(R.id.jaune);
+        blanc = findViewById(R.id.blanc);
         conteneurG = findViewById(R.id.conteneurG);
         conteneurC = findViewById(R.id.conteneurC);
         conteneurD = findViewById(R.id.conteneurD);
@@ -53,14 +54,15 @@ public class MainActivity extends AppCompatActivity {
         ec = new Ecouteur();
 
         questions.setOnClickListener(ec);
-        bleu.setOnClickListener(ec);
-        noir.setOnClickListener(ec);
-        jaune.setOnClickListener(ec);
-        rouge.setOnClickListener(ec);
-        conteneurG.setOnClickListener(ec);
-        conteneurC.setOnClickListener(ec);
-        conteneurD.setOnClickListener(ec);
-        confirmer.setOnClickListener(ec);
+        bleu.setOnTouchListener(ec);
+        rouge.setOnTouchListener(ec);
+        noir.setOnTouchListener(ec);
+        jaune.setOnTouchListener(ec);
+        blanc.setOnTouchListener(ec);
+        conteneurG.setOnDragListener(ec);
+        conteneurC.setOnDragListener(ec);
+        conteneurD.setOnDragListener(ec);
+
 
 
          cleCouleur = new HashMap<Integer, String>();
@@ -87,35 +89,50 @@ public class MainActivity extends AppCompatActivity {
 
     private class Ecouteur implements View.OnClickListener,View.OnDragListener, View.OnTouchListener {
 
-            Drawable couleurBleu = bleu.getBackground();
-            Drawable couleurRouge = rouge.getBackground();
-            Drawable couleurnoir = noir.getBackground();
-            Drawable couleurJaune = jaune.getBackground();
-            Drawable couleurChoisie;
+
 
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
-           if (event.getAction() == DragEvent.ACTION_DROP){
-//               couleurChoisie = v.getResources().getDrawable();
-
-               LinearLayout parentActuel =(LinearLayout) v;
-               parentActuel.setBackground(couleurChoisie);
-
-           }
-
-
-            return true;
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    // Do nothing
+                    return true;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    // Optional: change the style of the target view to indicate that it is an active drop target.
+                    return true;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    // Optional: revert any styling applied in ACTION_DRAG_ENTERED.
+                    return true;
+                case DragEvent.ACTION_DROP:
+                    if (v instanceof LinearLayout) {
+                        LinearLayout parentActuel = (LinearLayout) v;
+                        View draggedView = (View) event.getLocalState();
+                        int color = ((ColorDrawable) draggedView.getBackground()).getColor();
+                        String colorName = cleCouleur.get(color);
+                        if (colorName != null) {
+                            parentActuel.setBackgroundColor(color);
+                        }
+                        draggedView.setVisibility(View.VISIBLE);  // Reset visibility of the dragged view
+                    }
+                    return true;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    // Optional: revert any styling applied during the drag.
+                    return true;
+                default:
+                    break;
+            }
+            return false;
         }
         @Override
-        public boolean onTouch(View source, MotionEvent event) {
-
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(source);
-            source.startDragAndDrop(null,shadowBuilder,source,0);
-
-            source.setVisibility(View.VISIBLE);
-
-            return true;
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+                v.startDragAndDrop(null, shadowBuilder, v, 0);
+                v.setVisibility(View.INVISIBLE); // you can also use View.GONE
+                return true;
+            }
+            return false;
         }
 
 
