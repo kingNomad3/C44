@@ -30,26 +30,24 @@ public class Partie {
         else
             return false;
     }
+    //extrax minutes
     public int calculScore(Score score, int valeurCarte, int carteCouranteValeur, long simpleChronometer) {
-        // Stop and read the Chronometer to get the elapsed time.
-        simpleChronometer.stop();
-        long elapsedTime = SystemClock.elapsedRealtime() - simpleChronometer.getBase();
 
-        // Calculate speedFactor based on elapsed time.
-        double maxTime = 10000.0;  // 10 seconds for maximum time
-        double speedFactor = 2.0 - (elapsedTime / maxTime);
-        if (speedFactor < 1.0) speedFactor = 1.0;  // setting a lower limit
 
-        // Calculate score based on difference between played card and current card.
-        int UpdateScore = (int) (Math.abs(valeurCarte - carteCouranteValeur) * 2.5 * speedFactor);  // Modified to include speedFactor
+        double maxTime = 100000.0;
+        double speedFactor = 2.0 - (simpleChronometer / maxTime);
+        if (speedFactor < 1.0) speedFactor = 1.0;
+
+
+        int UpdateScore = (int) (Math.abs(valeurCarte - carteCouranteValeur) - (2.5 * speedFactor));
 
         int scoreCourant = score.getScore();
         if (UpdateScore < 0)
             UpdateScore = 0;
         score.setScore(UpdateScore + scoreCourant);
 
-        // Reset the Chronometer for the next turn.
-        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+
+//        simpleChronometer.setBase(SystemClock.elapsedRealtime());
 
         return UpdateScore + scoreCourant;
     }

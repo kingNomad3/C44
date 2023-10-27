@@ -3,7 +3,6 @@ package com.example.tpfinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,10 +24,10 @@ public class GameActivity extends AppCompatActivity {
     LinearLayout parent, conteneurChiffreEntête, conteneurHaut, conteneurHautGauche, conteneurHautDroite,
             conteneurBas, conteneurBasGauche, conteneurBasDroite;
     GridLayout deckGrid;
-    Chronometer chronometer;
+    Chronometer chrono;
     EcouteurCarte ecouteurCarte;
     EcouteurDeck ecouteurDeck;
-    Chronometer simpleChronometer;
+
 
     ImageView replayButton; //ne fonctionne pas
     TextView nbCartesRestantes, textScore, carteSelectionner, menu;
@@ -61,17 +60,17 @@ public class GameActivity extends AppCompatActivity {
         conteneurBasGauche = findViewById(R.id.conteneurDescendantGauche);
         conteneurBasDroite = findViewById(R.id.conteneurDescendantDroite);
         deckGrid = findViewById(R.id.deckCards);
-        chronometer = findViewById(R.id.chrono);
+        chrono = findViewById(R.id.chrono);
         menu = findViewById(R.id.buttonMenu);
         nbCartesRestantes = findViewById(R.id.nbCarteRestante);
         textScore = findViewById(R.id.score);
         replayButton = findViewById(R.id.Replay);
-        simpleChronometer = findViewById(R.id.chrono);
+
 
         // Initialisation des écouteurs et des valeurs de jeu
         ecouteurCarte = new EcouteurCarte();
         ecouteurDeck = new EcouteurDeck();
-        chronometer.start();
+        chrono.start();
         chiffreSelectionne = "0";
         score = new Score(0);
         scoreAjoute = 0;
@@ -87,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
         menu.setOnClickListener(ecouteurCarte);
         replayButton.setOnClickListener(ecouteurCarte);
 
-        simpleChronometer.start();
+
 
 
         // Remplissage des cartes du jeu avec des valeurs depuis la pile de cartes
@@ -211,9 +210,10 @@ public class GameActivity extends AppCompatActivity {
                         partie.getPlaceCarteEnlever().add(carteSelectionner.getId());
                         nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
-                        long elapsedTime = SystemClock.elapsedRealtime() - simpleChronometer.getBase();
+                        long elapsedTime = SystemClock.elapsedRealtime() - chrono.getBase();
 
-                        partie.calculScore(score, valeurCarte, carteCouranteValeur,elapsedTime);
+                        System.out.println( partie.calculScore(score, valeurCarte, carteCouranteValeur, elapsedTime));
+                        partie.calculScore(score, valeurCarte, carteCouranteValeur, elapsedTime);
                         textScore.setText(String.valueOf(score.getScore()));
 
                         // Vérifie si 2 cartes ont été retirées et met à jour le deck en conséquence
