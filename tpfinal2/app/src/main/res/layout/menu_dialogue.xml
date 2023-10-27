@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="275dp"
         android:layout_height="165dp"
-        android:background="@drawable/card_container_81_plus">
+        android:background="@drawable/carte_container_81_plus">
 
         <LinearLayout
             android:layout_width="287dp"

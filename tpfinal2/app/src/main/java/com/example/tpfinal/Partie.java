@@ -1,5 +1,7 @@
 package com.example.tpfinal;
 
+import android.os.SystemClock;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import androidx.gridlayout.widget.GridLayout;
 import java.util.Vector;
@@ -10,12 +12,13 @@ public class Partie {
     private Vector<Integer> placeCarteEnlever; // Vecteur pour stocker les emplacements des cartes retirées
     private int dernierCarteSurLaPile; // Identifiant de la dernière carte placée sur la pile
     private String valeurDernierCarteSurLaPile; // Valeur de la dernière carte placée sur la pile
-
+    Chronometer simpleChronometer;
     public Partie() {
         this.valeurCarteEnlever = new Vector<>();
         this.placeCarteEnlever = new Vector<>();
         this.dernierCarteSurLaPile = 0;
         this.valeurDernierCarteSurLaPile = "";
+
     }
     public boolean verifierPlace(String conteneurParent, int valeurCarte, int carteCouranteValeur) {
         // Méthode permettant de vérifier si la carte que le joueur veut placer est possible ou non
@@ -27,14 +30,27 @@ public class Partie {
         else
             return false;
     }
-    public int calculScore(Score score, int valeurCarte, int carteCouranteValeur) {
-        // Méthode permettant de calculer le score du joueur dans son action
-        // Plus la différence entre la carte mise et la carte courante est grande, plus le score sera élevé
-        int UpdateScore = (int) (Math.abs(valeurCarte - carteCouranteValeur) * 2.5);
+    public int calculScore(Score score, int valeurCarte, int carteCouranteValeur, long simpleChronometer) {
+        // Stop and read the Chronometer to get the elapsed time.
+        simpleChronometer.stop();
+        long elapsedTime = SystemClock.elapsedRealtime() - simpleChronometer.getBase();
+
+        // Calculate speedFactor based on elapsed time.
+        double maxTime = 10000.0;  // 10 seconds for maximum time
+        double speedFactor = 2.0 - (elapsedTime / maxTime);
+        if (speedFactor < 1.0) speedFactor = 1.0;  // setting a lower limit
+
+        // Calculate score based on difference between played card and current card.
+        int UpdateScore = (int) (Math.abs(valeurCarte - carteCouranteValeur) * 2.5 * speedFactor);  // Modified to include speedFactor
+
         int scoreCourant = score.getScore();
         if (UpdateScore < 0)
             UpdateScore = 0;
-        score.setScore(UpdateScore += scoreCourant);
+        score.setScore(UpdateScore + scoreCourant);
+
+        // Reset the Chronometer for the next turn.
+        simpleChronometer.setBase(SystemClock.elapsedRealtime());
+
         return UpdateScore + scoreCourant;
     }
     public boolean isVide(GridLayout deckCartes) {

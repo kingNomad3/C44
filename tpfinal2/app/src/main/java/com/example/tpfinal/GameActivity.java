@@ -7,6 +7,7 @@ import androidx.gridlayout.widget.GridLayout;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +15,9 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -24,12 +28,15 @@ public class GameActivity extends AppCompatActivity {
     Chronometer chronometer;
     EcouteurCarte ecouteurCarte;
     EcouteurDeck ecouteurDeck;
+    Chronometer simpleChronometer;
+
     ImageView replayButton; //ne fonctionne pas
     TextView nbCartesRestantes, textScore, carteSelectionner, menu;
 
     //Ici, j'ai utilisé un Integer au lien d'un int car j'aimerais contenir une valeur null lorsque la carte est vide
     Integer[] idDeckHaut = {R.id.deckCardHautGauche, R.id.deckCardHautDroite};
     Integer[] idDeckBas = {R.id.deckCarteBasGauche, R.id.deckCarteBasDroite};
+    private List<Historique> redoHistorique = new ArrayList<>();
 
     // Déclarations des objets pour gérer le jeu
     Partie partie;
@@ -37,6 +44,7 @@ public class GameActivity extends AppCompatActivity {
     Score score;
     int scoreAjoute;
     String chiffreSelectionne;
+    Historique Hs = new Historique();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +61,12 @@ public class GameActivity extends AppCompatActivity {
         conteneurBasGauche = findViewById(R.id.conteneurDescendantGauche);
         conteneurBasDroite = findViewById(R.id.conteneurDescendantDroite);
         deckGrid = findViewById(R.id.deckCards);
-        chronometer = findViewById(R.id.simpleChronometer);
+        chronometer = findViewById(R.id.chrono);
         menu = findViewById(R.id.buttonMenu);
         nbCartesRestantes = findViewById(R.id.nbCarteRestante);
         textScore = findViewById(R.id.score);
         replayButton = findViewById(R.id.Replay);
+        simpleChronometer = findViewById(R.id.chrono);
 
         // Initialisation des écouteurs et des valeurs de jeu
         ecouteurCarte = new EcouteurCarte();
@@ -76,6 +85,10 @@ public class GameActivity extends AppCompatActivity {
 
         // Définition des écouteurs pour le menu, les cartes et les conteneurs de deck
         menu.setOnClickListener(ecouteurCarte);
+        replayButton.setOnClickListener(ecouteurCarte);
+
+        simpleChronometer.start();
+
 
         // Remplissage des cartes du jeu avec des valeurs depuis la pile de cartes
         for (int i = 0; i < deckGrid.getChildCount(); i++) {
@@ -92,7 +105,6 @@ public class GameActivity extends AppCompatActivity {
         // Configuration des conteneurs pour le deck ascendant
         for (int i = 0; i < conteneurHaut.getChildCount(); i++) {
             LinearLayout conteneur = (LinearLayout) conteneurHaut.getChildAt(i);
-
             // Définir un écouteur pour le glisser-déposer des cartes dans le deck ascendant
             conteneur.setOnDragListener(ecouteurDeck);
         }
@@ -103,36 +115,49 @@ public class GameActivity extends AppCompatActivity {
             conteneur.setOnDragListener(ecouteurDeck);
         }
     }
-
     // Classe EcouteurCarte : Gère les interactions avec les cartes du jeu
     private class EcouteurCarte implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
         // Gestion du clic sur un élément de l'interface
         @Override
         public void onClick(View v) {
              //Si l'élément cliqué est le bouton "menu", démarre l'activité MainActivity
-            if (v.equals(menu)){
+            if (v == menu){
                 MenuAlert ma = new MenuAlert(GameActivity.this);
                 ma.show();
+            }
+            //ne foncitonne pas
+            if (v == replayButton) {
+                if (!redoHistorique.isEmpty()) {
+                    Historique lastMove = redoHistorique.get(redoHistorique.size() - 1);
+
+                    TextView prevContainer = findViewById(lastMove.previousContainerId);
+                    prevContainer.setText(lastMove.previousCardValue);
+
+                    redoHistorique.remove(redoHistorique.size() - 1);
+                }
             }
         }
         // Gestion des événements de glisser-déposer sur un élément de l'interface
         @Override
         public boolean onDrag(View v, DragEvent event) {
             if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
-
                 if (((TextView) v).getText() == chiffreSelectionne)
                     ((TextView) v).setText("");
-                //rajouter   java.lang.NumberFormatException: For input string: "" (GameActivity.java:168) lorsqu une carte vide est utilise
+                //rajouter  try catch for java.lang.NumberFormatException: For input string: "" (GameActivity.java:168) lorsqu une carte vide est utilise
             } else if (event.getAction() == DragEvent.ACTION_DRAG_ENDED || event.getAction() == DragEvent.ACTION_DROP) {
                 // Lorsque le glisser-déposer se termine, si chiffreSelectionne n'est pas null, met le texte de la carte sélectionnée à chiffreSelectionne
                 if (chiffreSelectionne != null) {
                     carteSelectionner.setText(chiffreSelectionne);
                     chiffreSelectionne = null;
+
+                    Hs.previousContainerId = v.getId();
+                    Hs.previousCardValue = ((TextView) v).getText().toString();
+                    redoHistorique.add(Hs);
                 }
             }
             return true;
         }
-        // Gestion des événements tactiles sur un élément de l'interface
+        // Gestion des vesions
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
@@ -148,7 +173,6 @@ public class GameActivity extends AppCompatActivity {
             return true;
         }
     }
-
     // Classe EcouteurDeck : Gère les événements de glisser-déposer sur les zones de deck
     private class EcouteurDeck implements View.OnDragListener {
         @Override
@@ -159,20 +183,17 @@ public class GameActivity extends AppCompatActivity {
                 boolean placementEffectue = false; // Indique si le placement de la carte est valide
                 TextView carteConteneur = null; // La carte actuellement dans le conteneur
                 TextView endroitDeposeCarte;
-
                 // Vérifie si la vue sur laquelle on lâche est l'une des vues attendues
                 if (v.getId() == conteneurHautGauche.getId() || v.getId() == conteneurBasGauche.getId() ||
                         v.getId() == conteneurHautDroite.getId() || v.getId() == conteneurBasDroite.getId()) {
                     carteConteneur = (TextView) conteneur.getChildAt(1);
                 }
-
                 // Essaie de parser les cartes, si une exception est lancée (carte vide par exemple), elle est gérée
                 try {
                     int valeurCarte = Integer.parseInt(chiffreSelectionne);
                     int carteCouranteValeur = Integer.parseInt((String) carteConteneur.getText());
 
                     ChangementCouleur(carteConteneur, valeurCarte);
-
                     // Vérifie le placement en fonction de la position du conteneur
                     if ((((LinearLayout) conteneur.getParent()).getId() == conteneurHaut.getId())) {
                         if (partie.verifierPlace("ascendant", valeurCarte, carteCouranteValeur))
@@ -181,7 +202,6 @@ public class GameActivity extends AppCompatActivity {
                         if (partie.verifierPlace("descendant", valeurCarte, carteCouranteValeur))
                             placementEffectue = true;
                     }
-
                     // Si le placement est valide
                     if (placementEffectue) {
                         partie.setDernierCarteSurLaPile(carteConteneur.getId());
@@ -191,7 +211,9 @@ public class GameActivity extends AppCompatActivity {
                         partie.getPlaceCarteEnlever().add(carteSelectionner.getId());
                         nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
-                        partie.calculScore(score, valeurCarte, carteCouranteValeur);
+                        long elapsedTime = SystemClock.elapsedRealtime() - simpleChronometer.getBase();
+
+                        partie.calculScore(score, valeurCarte, carteCouranteValeur,elapsedTime);
                         textScore.setText(String.valueOf(score.getScore()));
 
                         // Vérifie si 2 cartes ont été retirées et met à jour le deck en conséquence
@@ -210,9 +232,7 @@ public class GameActivity extends AppCompatActivity {
                     } else {
                         endroitDeposeCarte = carteSelectionner;
                     }
-
                     endroitDeposeCarte.setText(chiffreSelectionne);
-
                     // Vérifie la fin de partie ou si le deck est vide
                     if (placementEffectue) {
                         if (verifierFindePartie() || deck.tailleListeCartes() == 0 && partie.isVide(deckGrid)) {
@@ -224,7 +244,6 @@ public class GameActivity extends AppCompatActivity {
                     }
                     carteSelectionner = null;
                     chiffreSelectionne = null;
-
                 } catch (NumberFormatException e) {
                     System.out.println("Exception");
                 }
@@ -232,22 +251,20 @@ public class GameActivity extends AppCompatActivity {
             return true;
         }
     }
-
-
     // Méthode pour changer la couleur de la carte en fonction de sa valeur
     private void ChangementCouleur(TextView cardTextView, int cardValue) {
         if (cardValue == 98 || cardValue == 0) {
-            cardTextView.setBackgroundResource(R.drawable.card_in_play);
+            cardTextView.setBackgroundResource(R.drawable.carte_in_play);
         } else if (cardValue < 21) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_0_20);
+            cardTextView.setBackgroundResource(R.drawable.carte_container_0_20);
         } else if (cardValue > 20 && cardValue < 41) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_21_40);
+            cardTextView.setBackgroundResource(R.drawable.carte_container_21_40);
         } else if (cardValue > 40 && cardValue < 61) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_41_60);
+            cardTextView.setBackgroundResource(R.drawable.carte_container_41_60);
         } else if (cardValue > 60 && cardValue < 80) {
-            cardTextView.setBackgroundResource(R.drawable.card_container_61_80);
+            cardTextView.setBackgroundResource(R.drawable.carte_container_61_80);
         } else {
-            cardTextView.setBackgroundResource(R.drawable.card_container_81_plus);
+            cardTextView.setBackgroundResource(R.drawable.carte_container_81_plus);
         }
     }
     // Méthode pour vérifier la fin de la partie
@@ -265,7 +282,7 @@ public class GameActivity extends AppCompatActivity {
                 if (!valeurCarteMainString.contentEquals("")) {
                     valeurCarteMain = Integer.parseInt(valeurCarteMainString);
                     // Vérifie si la carte en main est plus grande que la carte dans la pile
-                    // ou si elles ont une différence de 10
+                    // ou regle de 10
                     if (valeurCarteMain > valeurCartePile || valeurCartePile - valeurCarteMain == 10) {
                         return false; // La partie n'est pas terminée
                     }

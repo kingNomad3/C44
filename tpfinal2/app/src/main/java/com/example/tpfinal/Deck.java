@@ -25,6 +25,7 @@ public class Deck {
             return -1;
         }
     }
+
     public int retirerCarte()
     {
         return listeCartes.pop();
