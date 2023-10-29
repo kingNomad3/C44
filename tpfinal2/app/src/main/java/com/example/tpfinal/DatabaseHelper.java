@@ -35,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = database.rawQuery("SELECT MAX(score) FROM scores",null); // on cherche celui qui le plus grand score
         c.moveToFirst();
         Resultat = c.getInt(0);
+        c.close();
         return Resultat;
     }
 

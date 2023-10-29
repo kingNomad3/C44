@@ -13,6 +13,7 @@ public class Partie {
     private int dernierCarteSurLaPile; // Identifiant de la dernière carte placée sur la pile
     private String valeurDernierCarteSurLaPile; // Valeur de la dernière carte placée sur la pile
     Chronometer simpleChronometer;
+    Deck deck = new Deck();
     public Partie() {
         this.valeurCarteEnlever = new Vector<>();
         this.placeCarteEnlever = new Vector<>();
@@ -31,23 +32,26 @@ public class Partie {
             return false;
     }
     //extrax minutes
-    public int calculScore(Score score, int valeurCarte, int carteCouranteValeur, long simpleChronometer) {
+    public int calculScore(Score score, int valeurCarte, int carteCouranteValeur, long timeDifference, int cartesRestantes) {
+        // Calculer un bonus de score inversement proportionnel à timeDifference
+        //le 1000 permet de me donne un nombre de point plus significative
+        int bonusScore = (int) Math.round(1000.0 / Math.log(timeDifference + 2.0));
+        System.out.println("bonus score " + bonusScore);
+
+        // Calculer le bonus basé sur le nombre de cartes restantes
+        // L'inverse du nombre de cartes restantes : moins il y a de cartes, plus le bonus est élevé
+        int bonusCartesRestantes = (deck.getNbCartetotal() - cartesRestantes) * 2;
+        System.out.println("bonusCartesRestantes" + bonusCartesRestantes);
+//        System.out.println("cartesRestantes: " + cartesRestantes);
+//        System.out.println("Total Cards in Deck: " + deck.getNbCartetotal());
 
 
-        double maxTime = 100000.0;
-        double speedFactor = 2.0 - (simpleChronometer / maxTime);
-        if (speedFactor < 1.0) speedFactor = 1.0;
+        // Calculer le score basé sur la proximité de la carte jouée à la carte courante
+        int UpdateScore = Math.abs(valeurCarte - carteCouranteValeur) + bonusScore + bonusCartesRestantes;
 
-
-        int UpdateScore = (int) (Math.abs(valeurCarte - carteCouranteValeur) - (2.5 * speedFactor));
-
+        // Mettre à jour le score total
         int scoreCourant = score.getScore();
-        if (UpdateScore < 0)
-            UpdateScore = 0;
         score.setScore(UpdateScore + scoreCourant);
-
-
-//        simpleChronometer.setBase(SystemClock.elapsedRealtime());
 
         return UpdateScore + scoreCourant;
     }

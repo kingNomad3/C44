@@ -27,8 +27,6 @@ public class GameActivity extends AppCompatActivity {
     Chronometer chrono;
     EcouteurCarte ecouteurCarte;
     EcouteurDeck ecouteurDeck;
-
-
     ImageView replayButton; //ne fonctionne pas
     TextView nbCartesRestantes, textScore, carteSelectionner, menu;
 
@@ -208,13 +206,16 @@ public class GameActivity extends AppCompatActivity {
                         endroitDeposeCarte = carteConteneur;
                         partie.getValeurCarteEnlever().add(chiffreSelectionne);
                         partie.getPlaceCarteEnlever().add(carteSelectionner.getId());
-                        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
+                       nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
+                        long lastSuccessfulMoveTime = 0;
                         long elapsedTime = SystemClock.elapsedRealtime() - chrono.getBase();
+                        long timeDifference = elapsedTime - lastSuccessfulMoveTime;
 
-                        System.out.println( partie.calculScore(score, valeurCarte, carteCouranteValeur, elapsedTime));
-                        partie.calculScore(score, valeurCarte, carteCouranteValeur, elapsedTime);
+                        System.out.println( partie.calculScore(score, valeurCarte, carteCouranteValeur, timeDifference,deck.tailleListeCartes()));
+                        partie.calculScore(score, valeurCarte, carteCouranteValeur, elapsedTime, deck.tailleListeCartes());
                         textScore.setText(String.valueOf(score.getScore()));
+                        lastSuccessfulMoveTime = elapsedTime;
 
                         // Vérifie si 2 cartes ont été retirées et met à jour le deck en conséquence
                         if (partie.getValeurCarteEnlever().size() == 2) {
