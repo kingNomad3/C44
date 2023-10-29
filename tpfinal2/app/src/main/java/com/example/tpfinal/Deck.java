@@ -5,11 +5,11 @@ import java.util.Stack;
 
 public class Deck {
     private Stack<Integer> listeCartes; // Pile pour stocker les cartes de la pile
-    private int nbCartetotal = 97;
+    private int nbCartetotal = 98;
     public Deck() {
         // On crée les 98 cartes dans le jeu
         listeCartes = new Stack<Integer>();
-        for (int i = 0; i < nbCartetotal; i++)
+        for (int i = 1; i < nbCartetotal; i++)
             listeCartes.push(new Integer(i)); // Utilisez push pour ajouter des cartes à la pile
     }
     public void melangerCartes() {

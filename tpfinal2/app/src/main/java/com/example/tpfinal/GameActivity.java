@@ -121,7 +121,9 @@ public class GameActivity extends AppCompatActivity {
             if (v == menu){
                 MenuAlert ma = new MenuAlert(GameActivity.this);
                 ma.show();
+                chrono.stop();
             }
+
             //ne foncitonne pas
             if (v == replayButton) {
                 if (!redoHistorique.isEmpty()) {
@@ -206,7 +208,7 @@ public class GameActivity extends AppCompatActivity {
                         endroitDeposeCarte = carteConteneur;
                         partie.getValeurCarteEnlever().add(chiffreSelectionne);
                         partie.getPlaceCarteEnlever().add(carteSelectionner.getId());
-                       nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
+                        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
                         long lastSuccessfulMoveTime = 0;
                         long elapsedTime = SystemClock.elapsedRealtime() - chrono.getBase();
@@ -307,5 +309,10 @@ public class GameActivity extends AppCompatActivity {
         }
         return true; // La partie est terminée
     }
+
+    public void startChrono(){
+        chrono.start();
+    }
+
 }
 

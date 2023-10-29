@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 
 public class MenuAlert extends Dialog {
     Button RetourJeu, QuitterJeu;
-
+    Chronometer chrono;
     public MenuAlert(Context context) {
         super(context);
     }
@@ -34,8 +35,11 @@ public class MenuAlert extends Dialog {
             Button temp = (Button) v;
             String textButton = temp.getText().toString();
 
+
             if(textButton.equals("Continuer la partie")){
+                ///faire restart le chrono
                 dismiss();
+
             } else if (v ==QuitterJeu) {
                 Intent i = new Intent(getContext(), MainActivity.class);
                 getContext().startActivity(i);
