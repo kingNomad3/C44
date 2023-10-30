@@ -10,7 +10,6 @@ public class Partie {
     private Vector<Integer> placeCarteEnlever; // Vecteur pour stocker les emplacements des cartes retirées
     private int dernierCarteSurLaPile; // Identifiant de la dernière carte placée sur la pile
     private String valeurDernierCarteSurLaPile; // Valeur de la dernière carte placée sur la pile
-    Chronometer simpleChronometer;
     Deck deck = new Deck();
     public Partie() {
         this.valeurCarteEnlever = new Vector<>();
