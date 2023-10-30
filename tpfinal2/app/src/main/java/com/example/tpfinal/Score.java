@@ -1,8 +1,8 @@
 package com.example.tpfinal;
 
 public class Score {
-    // Classe créée pour faciliter l'entrée de scores dans la base de données
-    private int score; // Variable pour stocker le score
+    // Creation de l'objet score
+    private int score;
     public Score(int score) {
         this.score = score;
     }

@@ -5,28 +5,27 @@ import java.util.Stack;
 
 public class Deck {
     private Stack<Integer> listeCartes; // Pile pour stocker les cartes de la pile
-    private int nbCartetotal = 97;
+    private int nbCartetotal = 98;
     public Deck() {
-        // On crée les 98 cartes dans le jeu
+        // On crée les 97 cartes dans le jeu
         listeCartes = new Stack<Integer>();
-        for (int i = 0; i < nbCartetotal; i++)
+        for (int i = 1; i < nbCartetotal; i++)
             listeCartes.push(new Integer(i)); // Utilisez push pour ajouter des cartes à la pile
     }
-    public void melangerCartes() {
-        // Méthode permettant de mélanger les cartes dans le jeu
+    public void shuffleCarte() {
+        // Méthode permettant de mélanger les cartes
         //https://www.geeksforgeeks.org/collections-shuffle-method-in-java-with-examples/
         Collections.shuffle(listeCartes);
     }
     public int tirerCarte() {
-        // Méthode permettant de tirer une carte (la dernière sur la pile de cartes) après que cette pile soit mélangée
+        // Méthode pour de tirer une carte après que cette pile soit mélangée
         if (!listeCartes.isEmpty()) {
             return listeCartes.pop(); // Utilisez pop pour retirer et retourner la carte du dessus de la pile
         } else {
-            // Gérez le cas où la pile est vide
+            // Gérez le cas où la pile est vie
             return -1;
         }
     }
-
     public int retirerCarte()
     {
         return listeCartes.pop();
@@ -34,13 +33,8 @@ public class Deck {
     public int tailleListeCartes() {
         return listeCartes.size();
     }
-
     public int getNbCartetotal() {
         return nbCartetotal;
-    }
-
-    public void setNbCartetotal(int nbCartetotal) {
-        this.nbCartetotal = nbCartetotal;
     }
 }
 

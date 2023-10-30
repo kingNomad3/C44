@@ -9,14 +9,11 @@ import android.widget.Button;
 
 public class MenuAlert extends Dialog {
     Button RetourJeu, QuitterJeu;
+    private GameActivity mActivity;
 
-    public MenuAlert(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public MenuAlert(GameActivity activity) {
+        super(activity);
+        mActivity = activity;
         setContentView(R.layout.menu_dialogue);
         RetourJeu = findViewById(R.id.RetourJeu);
         QuitterJeu = findViewById(R.id.quitterJeu);
@@ -28,20 +25,23 @@ public class MenuAlert extends Dialog {
     }
 
     private class Ecouteur implements View.OnClickListener {
-        // Gestion du clic sur un élément de l'interface
         @Override
         public void onClick(View v) {
             Button temp = (Button) v;
             String textButton = temp.getText().toString();
 
-            if(textButton.equals("Continuer la partie")){
+            if (textButton.equals("Continuer la partie")) {
+                //recommence le timer si le joueur retourne dans le jeu
+                mActivity.startChrono();
                 dismiss();
-            } else if (v ==QuitterJeu) {
-                Intent i = new Intent(getContext(), MainActivity.class);
-                getContext().startActivity(i);
-           }
+            } else if (v == QuitterJeu) {
+                Intent i = new Intent(mActivity, MainActivity.class);
+                mActivity.startActivity(i);
+
+            }
         }
     }
+
 }
 
 

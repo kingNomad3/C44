@@ -42,6 +42,9 @@ public class GameActivity extends AppCompatActivity {
     int scoreAjoute;
     String chiffreSelectionne;
     Historique Hs = new Historique();
+    long lastSuccessfulMoveTime = 0;
+    long elapsedTime = 0;
+    long timeDifference = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,6 @@ public class GameActivity extends AppCompatActivity {
         textScore = findViewById(R.id.score);
         replayButton = findViewById(R.id.Replay);
 
-
         // Initialisation des écouteurs et des valeurs de jeu
         ecouteurCarte = new EcouteurCarte();
         ecouteurDeck = new EcouteurDeck();
@@ -73,44 +75,47 @@ public class GameActivity extends AppCompatActivity {
         score = new Score(0);
         scoreAjoute = 0;
         deck = new Deck();
-        deck.melangerCartes();
+        deck.shuffleCarte();
         partie = new Partie();
 
         // Mise à jour des éléments d'affichage
-        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes()));
+        //Si j'ai bien compris 97-8 cartes sur le jeu
+        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - 8));
         textScore.setText(String.valueOf(score.getScore()));
 
         // Définition des écouteurs pour le menu, les cartes et les conteneurs de deck
         menu.setOnClickListener(ecouteurCarte);
         replayButton.setOnClickListener(ecouteurCarte);
 
-
-
-
+        //97
         // Remplissage des cartes du jeu avec des valeurs depuis la pile de cartes
         for (int i = 0; i < deckGrid.getChildCount(); i++) {
             TextView carte = (TextView) deckGrid.getChildAt(i);
+
             int carteNb = deck.retirerCarte();
             ChangementCouleur(carte,carteNb);
             // Définir le texte de la carte avec la valeur de la carte tirée de la pile
-            carte.setText(String.valueOf(deck.tirerCarte()));
+            carte.setText(String.valueOf(carteNb));
             // Définir un écouteur pour le toucher de la carte (déplacement)
             carte.setOnTouchListener(ecouteurCarte);
             // Définir un écouteur pour le glisser-déposer de la carte
             carte.setOnDragListener(ecouteurCarte);
         }
+
         // Configuration des conteneurs pour le deck ascendant
         for (int i = 0; i < conteneurHaut.getChildCount(); i++) {
             LinearLayout conteneur = (LinearLayout) conteneurHaut.getChildAt(i);
             // Définir un écouteur pour le glisser-déposer des cartes dans le deck ascendant
             conteneur.setOnDragListener(ecouteurDeck);
         }
+
         // Configuration des conteneurs pour le deck descendant
         for (int i = 0; i < conteneurBas.getChildCount(); i++) {
             LinearLayout conteneur = (LinearLayout) conteneurBas.getChildAt(i);
             // Définir un écouteur pour le glisser-déposer des cartes dans le deck descendant
             conteneur.setOnDragListener(ecouteurDeck);
         }
+
     }
     // Classe EcouteurCarte : Gère les interactions avec les cartes du jeu
     private class EcouteurCarte implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
@@ -118,9 +123,10 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
              //Si l'élément cliqué est le bouton "menu", démarre l'activité MainActivity
-            if (v == menu){
+            if (v == menu) {
                 MenuAlert ma = new MenuAlert(GameActivity.this);
                 ma.show();
+                chrono.stop();
             }
             //ne foncitonne pas
             if (v == replayButton) {
@@ -185,6 +191,7 @@ public class GameActivity extends AppCompatActivity {
                         v.getId() == conteneurHautDroite.getId() || v.getId() == conteneurBasDroite.getId()) {
                     carteConteneur = (TextView) conteneur.getChildAt(1);
                 }
+
                 // Essaie de parser les cartes, si une exception est lancée (carte vide par exemple), elle est gérée
                 try {
                     int valeurCarte = Integer.parseInt(chiffreSelectionne);
@@ -206,16 +213,15 @@ public class GameActivity extends AppCompatActivity {
                         endroitDeposeCarte = carteConteneur;
                         partie.getValeurCarteEnlever().add(chiffreSelectionne);
                         partie.getPlaceCarteEnlever().add(carteSelectionner.getId());
-                       nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
-                        long lastSuccessfulMoveTime = 0;
-                        long elapsedTime = SystemClock.elapsedRealtime() - chrono.getBase();
-                        long timeDifference = elapsedTime - lastSuccessfulMoveTime;
+                        nbCartesRestantes.setText(String.valueOf(deck.tailleListeCartes() - partie.getValeurCarteEnlever().size()));
 
-                        System.out.println( partie.calculScore(score, valeurCarte, carteCouranteValeur, timeDifference,deck.tailleListeCartes()));
-                        partie.calculScore(score, valeurCarte, carteCouranteValeur, elapsedTime, deck.tailleListeCartes());
-                        textScore.setText(String.valueOf(score.getScore()));
-                        lastSuccessfulMoveTime = elapsedTime;
+                       //calcule du score avec le chronometre
+                         elapsedTime = SystemClock.elapsedRealtime() - chrono.getBase();
+                         timeDifference = elapsedTime - lastSuccessfulMoveTime;
+
+                         partie.calculScore(score, valeurCarte, carteCouranteValeur, timeDifference, deck.tailleListeCartes());
+                         textScore.setText(String.valueOf(score.getScore()));
 
                         // Vérifie si 2 cartes ont été retirées et met à jour le deck en conséquence
                         if (partie.getValeurCarteEnlever().size() == 2) {
@@ -267,6 +273,10 @@ public class GameActivity extends AppCompatActivity {
         } else {
             cardTextView.setBackgroundResource(R.drawable.carte_container_81_plus);
         }
+    }
+    //methode pour recommencer le chrono lorsqu'on revient a la partie
+    public void startChrono() {
+        chrono.start();
     }
     // Méthode pour vérifier la fin de la partie
     public boolean verifierFindePartie() {
